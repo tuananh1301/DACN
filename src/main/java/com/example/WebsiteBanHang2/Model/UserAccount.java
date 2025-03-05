@@ -1,6 +1,7 @@
 package com.example.WebsiteBanHang2.Model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -22,10 +23,9 @@ public class UserAccount implements UserDetails {
 
     @Column(name = "email")
     private String email;
-
     @Column(name = "password")
     private String password;
-
+    @Size(min = 5, max = 20, message = "INVALID_FIRST_NAME")
     @Column(name = "first_name")
     private String firstName;
 

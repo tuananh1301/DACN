@@ -23,6 +23,7 @@ public class StaffOrderController {
         model.addAttribute("Pendings", orderService.getPendingOrders());
         model.addAttribute("Shippeds", orderService.getShippedOrders());
         model.addAttribute("Delivereds", orderService.getDeliveredOrders());
+        model.addAttribute("Compeleteds", orderService.getCompeletedOrders());
         model.addAttribute("Cancelleds", orderService.getCancelledOrders());
         return "OrderStatus/Order";
     }
@@ -37,6 +38,11 @@ public class StaffOrderController {
     @GetMapping("/{orderId}/confirmDelivered")
     public String confirmDelivered(@PathVariable Integer orderId) {
         orderService.confirmDelivered(orderId);
+        return "redirect:/staff/orders";
+    }
+    @GetMapping("/{orderId}/confirmCompeleted")
+    public String confirmCompeleted(@PathVariable Integer orderId) {
+        orderService.confirmCompeleted(orderId);
         return "redirect:/staff/orders";
     }
 

@@ -53,6 +53,10 @@ public class OrderServiceImpl implements OrderService {
     public List<HoaDon> getDeliveredOrders() {
         return hoaDonService.findByTrangThaiVanChuyen(HoaDon.TrangThaiVanChuyen.DELIVERED);
     }
+    @Override
+    public List<HoaDon> getCompeletedOrders() {
+        return hoaDonService.findByTrangThaiVanChuyen(HoaDon.TrangThaiVanChuyen.COMPLETED);
+    }
 
     @Override
     public List<HoaDon> getCancelledOrders() {
@@ -108,6 +112,19 @@ public class OrderServiceImpl implements OrderService {
         }
 
         hoaDon.setTrangThaiVanChuyen(HoaDon.TrangThaiVanChuyen.DELIVERED);
+        return hoaDonRepository.save(hoaDon);
+    }
+
+    @Override
+    public HoaDon confirmCompeleted(Integer orderId) {
+        HoaDon hoaDon = hoaDonRepository.findById(orderId)
+                .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy đơn hàng"));
+
+        if (hoaDon.getTrangThaiVanChuyen() != HoaDon.TrangThaiVanChuyen.DELIVERED) {
+            throw new IllegalStateException("Đơn hàng không ở trạng thái DELIVERED");
+        }
+
+        hoaDon.setTrangThaiVanChuyen(HoaDon.TrangThaiVanChuyen.COMPLETED);
         return hoaDonRepository.save(hoaDon);
     }
 

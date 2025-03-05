@@ -1,5 +1,6 @@
 package com.example.WebsiteBanHang2.Controller;
 
+import com.example.WebsiteBanHang2.Exception.AppException;
 import com.example.WebsiteBanHang2.Model.LoginForm;
 import com.example.WebsiteBanHang2.Model.RegisterRequest;
 import com.example.WebsiteBanHang2.Model.UserAccount;
@@ -24,8 +25,8 @@ public class AuthController {
         try {
             authService.register(form);
             return "redirect:/login";
-        } catch (RuntimeException e) {
-            model.addAttribute("error", e.getMessage());
+        } catch (AppException e) {
+            model.addAttribute("error", e);
             return "Auth/Register";
         }
     }

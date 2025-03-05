@@ -46,6 +46,20 @@ public class HoaDon {
     @Column(name = "trang_thai")
     private Byte trangThai;
     public enum TrangThaiVanChuyen {
-        PENDING, SHIPPED, DELIVERED, CANCELLED
+        PENDING, SHIPPED, DELIVERED, CANCELLED, COMPLETED
+    }
+
+    @Override
+    public String toString() {
+        return "HoaDon{" +
+                "id=" + id +
+                ", maHoaDon='" + maHoaDon + '\'' +
+                ", loaiDon='" + loaiDon + '\'' +
+                ", diaChiGiaoHang='" + diaChiGiaoHang + '\'' +
+                ", tongTien=" + tongTien +
+                ", trangThaiVanChuyen=" + trangThaiVanChuyen +
+                ", ngayTao=" + ngayTao +
+                ", trangThai=" + trangThai +
+                '}';
     }
 }

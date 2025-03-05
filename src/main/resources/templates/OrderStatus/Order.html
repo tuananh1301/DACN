@@ -63,6 +63,7 @@
         <th>Mã đơn hàng</th>
         <th>Khách hàng</th>
         <th>Tổng tiền</th>
+        <th>Hành động</th>
     </tr>
     </thead>
     <tbody>
@@ -70,7 +71,26 @@
         <td th:text="${delivered.maHoaDon}"></td>
         <td th:text="${delivered.idKhachHang != null ? delivered.idKhachHang.firstName + ' ' + delivered.idKhachHang.lastName : 'Chưa có'}"></td>
         <td th:text="${delivered.tongTien}"></td>
-
+        <td>
+            <a th:href="@{/staff/orders/{id}/confirmCompeleted(id=${delivered.id})}" class="btn confirm-btn">Xác nhận đơn hàng đã hoàn thành</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<h1>Danh sách đơn hàng đã hoàn thành</h1>
+<table>
+    <thead>
+    <tr>
+        <th>Mã đơn hàng</th>
+        <th>Khách hàng</th>
+        <th>Tổng tiền</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="compeleted : ${Compeleteds}">
+        <td th:text="${compeleted.maHoaDon}"></td>
+        <td th:text="${compeleted.idKhachHang != null ? compeleted.idKhachHang.firstName + ' ' + compeleted.idKhachHang.lastName : 'Chưa có'}"></td>
+        <td th:text="${compeleted.tongTien}"></td>
     </tr>
     </tbody>
 </table>
