@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<table>
+    <thead>
+    <tr>
+        <th>id</th>
+        <th>tensanpham</th>
+        <th>kichthuoc</th>
+        <th>mau</th>
+        <th>chatlieu</th>
+        <th>kieudang</th>
+        <th>coao</th>
+        <th>thietke</th>
+        <th>thuonghieu</th>
+        <th>soluong</th>
+        <th>dongia</th>
+    </tr>
+    </thead>
+    <tbody>
+    <th:block th:each="spct : ${sanPhamChiTiet}">
+        <tr>
+            <td th:text="${spct.id}"></td>
+            <td th:text="${spct.sanPhamId.tenSanPham}"></td>
+            <td th:text="${spct.kichThuocId.tenKichThuoc}"></td>
+            <td th:text="${spct.mauSacId.tenMauSac}"></td>
+            <td th:text="${spct.chatLieuId.tenChatLieu}"></td>
+            <td th:text="${spct.kieuDangId.tenKieuDang}"></td>
+            <td th:text="${spct.coAoId.tenCoAo}"></td>
+            <td th:text="${spct.thietKeId.tenThietKe}"></td>
+            <td th:text="${spct.thuongHieuId.tenThuongHieu}"></td>
+            <td th:text="${spct.soLuong}"></td>
+            <td th:text="${spct.donGia}"></td>
+            <td>
+                <form th:action="@{/customer/add-to-cart}" method="post">
+                    <input type="hidden" name="id" th:value="${spct.id}">
+                    <input type="number" name="soLuongMua" value="1" min="1" th:max="${spct.soLuong}">
+                    <button type="submit" >Thêm vào giỏ</button>
+                </form>
+            </td>
+        </tr>
+    </th:block>
+    </tbody>
+</table>
+<a href="/customer/cart">Xem giỏ hàng</a>
+<a href="/home">Quay lại trang chủ</a>
+</body>
+</html>

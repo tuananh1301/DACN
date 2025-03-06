@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+update:
+<form action="/admin/updatekichthuoc" method="post">
+    id: <input type="text" name="id" th:value="${kt.id}">
+    makichthuoc: <input type="text" name="maKichThuoc" th:value="${kt.maKichThuoc}"> <br>
+    tenkichthuoc: <input type="text" name="tenKichThuoc" th:value="${kt.tenKichThuoc}"> <br>
+    trangthai: <input type="radio" name="trangThai" value="1" th:checked="${kt.trangThai == 1}">  mo
+    <input type="radio" name="trangThai" value="0" th:checked="${kt.trangThai == 1}"> dong <br>
+    <button>update</button>
+</form>
+</body>
+</html>

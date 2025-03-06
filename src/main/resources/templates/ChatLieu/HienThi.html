@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+add:
+<form action="/admin/addchatlieu" method="post">
+    machatlieu: <input type="text" name="maChatLieu"> <br>
+    tenchatlieu: <input type="text" name="tenChatLieu"> <br>
+    trangthai: <input type="radio" name="trangThai" value="1"> mo
+    <input type="radio" name="trangThai" value="0"> dong <br>
+    <button>add</button>
+</form>
+hienthi:
+<table>
+    <thead>
+    <tr>
+        <td>id</td>
+        <td>machatlieu</td>
+        <td>tenchatlieu</td>
+        <td>trangthai</td>
+        <td rowspan="2">hanhdong</td>
+    </tr>
+    </thead>
+    <tbody>
+    <th:block th:each="cl: ${listChatLieu}">
+        <tr>
+            <td th:text="${cl.id}"></td>
+            <td th:text="${cl.maChatLieu}"></td>
+            <td th:text="${cl.tenChatLieu}"></td>
+            <td th:text="${cl.trangThai}"></td>
+            <td>
+                <a th:href="@{|/admin/detailcaao/${cl.id}|}">detail</a>
+                <a th:href="@{|/admin/deletecaao?id=${cl.id}|}">delete</a>
+            </td>
+        </tr>
+    </th:block>
+    </tbody>
+</table>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Thương Hiệu</title>
+</head>
+<body>
+add:
+<form action="/admin/addthuonghieu" method="post">
+    mathuonghieu: <input type="text" name="maThuongHieu"> <br>
+    tenthuonghieu: <input type="text" name="tenThuongHieu"> <br>
+    trangthai: <input type="radio" name="trangThai" value="1"> mo
+    <input type="radio" name="trangThai" value="0"> dong <br>
+    <button type="submit">add</button>
+</form>
+hienthi:
+<table>
+    <thead>
+    <tr>
+        <th>id</th>
+        <th>ma</th>
+        <th>ten</th>
+        <th>trangthai</th>
+        <th rowspan="2">hoatdong</th>
+    </tr>
+    </thead>
+    <tbody>
+    <th:block th:each="th: ${listThuongHieu}">
+        <tr>
+            <td th:text="${th.id}"></td>
+            <td th:text="${th.maThuongHieu}"></td>
+            <td th:text="${th.tenThuongHieu}"></td>
+            <td th:text="${th.trangThai}"></td>
+            <td>
+                <a th:href="@{|/admin/detailthuonghieu/${th.id}|}">detail</a>
+                <a th:href="@{|/admin/deletethuonghieu?id=${th.id}|}">delete</a>
+            </td>
+        </tr>
+    </th:block>
+    </tbody>
+</table>
+</body>
+</html>

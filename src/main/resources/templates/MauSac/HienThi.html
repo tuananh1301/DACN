@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Màu Sắc</title>
+</head>
+<body>
+add:
+<form action="/admin/addmausac" method="post">
+    mamausac: <input type="text" name="maMauSac"> <br>
+    tenmausac: <input type="text" name="tenMauSac"> <br>
+    trangthai: <input type="radio" name="trangThai" value="1"> mo
+    <input type="radio" name="trangThai" value="0"> dong <br>
+    <button>add</button>
+</form>
+hienthi:
+<table>
+    <thead>
+    <tr>
+        <th>id</th>
+        <th>ma</th>
+        <th>ten</th>
+        <th>trangthai</th>
+        <th rowspan="2">hoatdong</th>
+    </tr>
+    </thead>
+    <tbody>
+    <th:block th:each="ms: ${listMauSac}">
+        <tr>
+            <td th:text="${ms.id}"></td>
+            <td th:text="${ms.maMauSac}"></td>
+            <td th:text="${ms.tenMauSac}"></td>
+            <td th:text="${ms.trangThai}"></td>
+            <td>
+                <a th:href="@{|/admin/detailmausac/${ms.id}|}">detail</a>
+                <a th:href="@{|/admin/deletemausac?id=${ms.id}|}">delete</a>
+            </td>
+        </tr>
+    </th:block>
+    </tbody>
+</table>
+</body>
+</html>

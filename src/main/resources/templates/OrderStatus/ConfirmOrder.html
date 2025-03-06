@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Xác nhận đơn hàng</title>
+    <style>
+        .form-container { max-width: 400px; margin: 20px auto; }
+        label { display: block; margin: 10px 0 5px; }
+        input { width: 100%; padding: 8px; margin-bottom: 10px; }
+        button { background-color: #4CAF50; color: white; padding: 10px; border: none; cursor: pointer; }
+    </style>
+</head>
+<body>
+<div class="form-container">
+    <h1>Xác nhận đơn hàng</h1>
+    <p>Mã đơn hàng: <span th:text="${order.maHoaDon}"></span></p>
+    <p>Tổng tiền: <span th:text="${order.tongTien}"></span></p>
+    <p>Trạng thái hiện tại: <span th:text="${order.trangThaiVanChuyen}"></span></p>
+
+    <form th:action="@{/staff/orders/{id}/confirm(id=${order.id})}" method="post">
+        <label for="staffId">ID Nhân viên:</label>
+        <input type="number" id="staffId" name="staffId" required>
+        <button type="submit">Xác nhận</button>
+    </form>
+</div>
+</body>
+</html>

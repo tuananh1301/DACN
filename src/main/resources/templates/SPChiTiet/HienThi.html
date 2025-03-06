@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sản Phẩm Chi Tiết</title>
+</head>
+<body>
+add:
+<form action="/admin/addSPCT" method="post">
+    san pham:
+    <select name="sanPhamId">
+        <option value="">Chọn sản phẩm</option>
+        <th:block th:each="sp : ${listSP}">
+            <option th:value="${sp.id}" th:text="${sp.tenSanPham}"></option>
+        </th:block>
+    </select> <br>
+    kich thuoc:
+    <select name="kichThuocId">
+        <option value="">Chọn kích thước</option>
+        <th:block th:each="kt : ${listKT}">
+            <option th:value="${kt.id}" th:text="${kt.tenKichThuoc}"></option>
+        </th:block>
+    </select> <br>
+    mau sac:
+    <select name="mauSacId">
+        <option value="">Chọn màu sắc</option>
+        <th:block th:each="ms : ${listMS}">
+            <option th:value="${ms.id}" th:text="${ms.tenMauSac}"></option>
+        </th:block>
+    </select> <br>
+    chat lieu:
+    <select name="chatLieuId">
+        <option value="">Chọn chất liệu</option>
+        <option th:each="cl : ${listCL}" th:value="${cl.id}" th:text="${cl.tenChatLieu}"></option>
+    </select> <br>
+    kieu dang:
+    <select name="kieuDangId">
+        <option value="">Chọn kiểu dáng</option>
+        <th:block th:each="kd : ${listKD}">
+            <option th:value="${kd.id}" th:text="${kd.tenKieuDang}"></option>
+        </th:block>
+    </select> <br>
+    co ao:
+    <select name="coAoId">
+        <option value="">Chọn cổ áo</option>
+        <th:block th:each="ca : ${listCA}">
+            <option th:value="${ca.id}" th:text="${ca.tenCoAo}"></option>
+        </th:block>
+    </select> <br>
+    thiet ke:
+    <select name="thietKeId">
+        <option value="">Chọn thiết kế</option>
+        <th:block th:each="tk : ${listTK}">
+            <option th:value="${tk.id}" th:text="${tk.tenThietKe}"></option>
+        </th:block>
+    </select> <br>
+    thuong hieu:
+    <select name="thuongHieuId">
+        <option value="">Chọn thương hiệu</option>
+        <th:block th:each="th : ${listTH}">
+            <option th:value="${th.id}" th:text="${th.tenThuongHieu}"></option>
+        </th:block>
+    </select> <br>
+    soluong: <input type="number" name="soLuong"> <br>
+    dongia: <input type="number" name="donGia" step="0.01"> <br>
+    trangthai: <input type="radio" name="trangThai" value="1"> mo
+    <input type="radio" name="trangThai" value="0"> dong <br>
+    <button>add</button>
+</form>
+hienthi:
+<table>
+    <thead>
+    <tr>
+        <th>id</th>
+        <th>san pham</th>
+        <th>kich thuoc</th>
+        <th>mau sac</th>
+        <th>chat lieu</th>
+        <th>kieu dang</th>
+        <th>co ao</th>
+        <th>thiet ke</th>
+        <th>thuong hieu</th>
+        <th>so luong</th>
+        <th>don gia</th>
+        <th>ngay tao</th>
+        <th>ngay cap nhat</th>
+        <th>nguoi cap nhat</th>
+        <th>trang thai</th>
+        <th rowspan="2">hoatdong</th>
+    </tr>
+    </thead>
+    <tbody>
+    <th:block th:each="spct: ${listSanPhamChiTiet}">
+        <tr>
+            <td th:text="${spct.id}"></td>
+            <td th:text="${spct.sanPhamId.tenSanPham}"></td>
+            <td th:text="${spct.kichThuocId.tenKichThuoc}"></td>
+            <td th:text="${spct.mauSacId.tenMauSac}"></td>
+            <td th:text="${spct.chatLieuId.tenChatLieu}"></td>
+            <td th:text="${spct.kieuDangId != null? spct.kieuDangId.tenKieuDang :'Null'}"></td>
+            <td th:text="${spct.coAoId != null? spct.coAoId.tenCoAo :'Null'}"></td>
+            <td th:text="${spct.thietKeId != null? spct.thietKeId.tenThietKe :'Null'}"></td>
+            <td th:text="${spct.thuongHieuId.tenThuongHieu}"></td>
+            <td th:text="${spct.soLuong}"></td>
+            <td th:text="${spct.donGia}"></td>
+            <td th:text="${spct.ngayTao}"></td>
+            <td th:text="${spct.ngayCapNhat}"></td>
+            <td th:text="${spct.nguoiCapNhat}"></td>
+            <td th:text="${spct.trangThai}"></td>
+            <td>
+                <a th:href="@{|/admin/detailSPCT/${spct.id}|}">detail</a>
+                <a th:href="@{|/admin/deleteSPCT?id=${spct.id}|}">delete</a>
+            </td>
+        </tr>
+    </th:block>
+    </tbody>
+</table>
+</body>
+</html>

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form action="/admin/updatechatlieu" method="post">
+    id: <input type="text" name="id" th:value="${cl.id}" readonly> <br>
+    machatlieu: <input type="text" name="maChatLieu" th:value="${cl.maChatLieu}"> <br>
+    tenchatlieu: <input type="text" name="tenChatLieu" th:value="${cl.tenChatLieu}"> <br>
+    trangthai: <input type="radio" name="trangThai" value="1" th:checked="${cl.trangThai == 1}"> mo
+    <input type="radio" name="trangThai" value="0" th:checked="${cl.trangThai == 0}"> dong <br>
+    <button>update</button>
+</form>
+</body>
+</html>

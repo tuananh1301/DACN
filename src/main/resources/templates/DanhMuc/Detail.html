@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+update:
+<form action="/admin/updatedanhmuc" method="post">
+    id: <input type="text" name="id" th:value="${dm.id}">
+    madanhmuc: <input type="text" name="maDanhMuc" th:value="${dm.maDanhMuc}"> <br>
+    tendanhmuc: <input type="text" name="tenDanhMuc" th:value="${dm.tenDanhMuc}"> <br>
+    trangthai: <input type="radio" name="trangThai" value="1" th:checked="${dm.trangThai == 1}">  mo
+    <input type="radio" name="trangThai" value="0" th:checked="${dm.trangThai == 1}"> dong <br>
+    <button>update</button>
+</form>
+</body>
+</html>

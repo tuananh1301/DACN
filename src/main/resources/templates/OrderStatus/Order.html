@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Danh sách đơn hàng</title>
+    <style>
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .btn { padding: 5px 10px; text-decoration: none; }
+        .confirm-btn { background-color: #4CAF50; color: white; }
+        .cancel-btn { background-color: #f44336; color: white; }
+    </style>
+</head>
+<body>
+<h1>Danh sách đơn hàng chờ duyệt</h1>
+<table>
+    <thead>
+    <tr>
+        <th>Mã đơn hàng</th>
+        <th>Khách hàng</th>
+        <th>Tổng tiền</th>
+        <th>Hành động</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="pending : ${Pendings}">
+        <td th:text="${pending.maHoaDon}"></td>
+        <td th:text="${pending.idKhachHang != null ? pending.idKhachHang.firstName + ' ' + pending.idKhachHang.lastName : 'Chưa có'}"></td>
+        <td th:text="${pending.tongTien}"></td>
+        <td>
+            <a th:href="@{/staff/orders/{id}/confirm(id=${pending.id})}" class="btn confirm-btn">Xác nhận</a>
+            <a th:href="@{/staff/orders/{id}/cancel(id=${pending.id})}" class="btn cancel-btn">Hủy</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<h1>Danh sách đơn hàng đang vận chuyển</h1>
+<table>
+    <thead>
+    <tr>
+        <th>Mã đơn hàng</th>
+        <th>Khách hàng</th>
+        <th>Tổng tiền</th>
+        <th>Hành động</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="shipped : ${Shippeds}">
+        <td th:text="${shipped.maHoaDon}"></td>
+        <td th:text="${shipped.idKhachHang != null ? shipped.idKhachHang.firstName + ' ' + shipped.idKhachHang.lastName : 'Chưa có'}"></td>
+        <td th:text="${shipped.tongTien}"></td>
+        <td>
+            <a th:href="@{/staff/orders/{id}/confirmDelivered(id=${shipped.id})}" class="btn confirm-btn">Xác nhận đơn hàng đã giao</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<h1>Danh sách đơn hàng đã giao</h1>
+<table>
+    <thead>
+    <tr>
+        <th>Mã đơn hàng</th>
+        <th>Khách hàng</th>
+        <th>Tổng tiền</th>
+        <th>Hành động</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="delivered : ${Delivereds}">
+        <td th:text="${delivered.maHoaDon}"></td>
+        <td th:text="${delivered.idKhachHang != null ? delivered.idKhachHang.firstName + ' ' + delivered.idKhachHang.lastName : 'Chưa có'}"></td>
+        <td th:text="${delivered.tongTien}"></td>
+        <td>
+            <a th:href="@{/staff/orders/{id}/confirmCompeleted(id=${delivered.id})}" class="btn confirm-btn">Xác nhận đơn hàng đã hoàn thành</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<h1>Danh sách đơn hàng đã hoàn thành</h1>
+<table>
+    <thead>
+    <tr>
+        <th>Mã đơn hàng</th>
+        <th>Khách hàng</th>
+        <th>Tổng tiền</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="compeleted : ${Compeleteds}">
+        <td th:text="${compeleted.maHoaDon}"></td>
+        <td th:text="${compeleted.idKhachHang != null ? compeleted.idKhachHang.firstName + ' ' + compeleted.idKhachHang.lastName : 'Chưa có'}"></td>
+        <td th:text="${compeleted.tongTien}"></td>
+    </tr>
+    </tbody>
+</table>
+<h1>Danh sách đơn hàng đã huỷ</h1>
+<table>
+    <thead>
+    <tr>
+        <th>Mã đơn hàng</th>
+        <th>Khách hàng</th>
+        <th>Tổng tiền</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="cancelled : ${Cancelleds}">
+        <td th:text="${cancelled.maHoaDon}"></td>
+        <td th:text="${cancelled.idKhachHang != null ? cancelled.idKhachHang.firstName + ' ' + cancelled.idKhachHang.lastName : 'Chưa có'}"></td>
+        <td th:text="${cancelled.tongTien}"></td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sản Phẩm</title>
+</head>
+<body>
+update:
+<form action="/admin/updatedanhmuc" method="post">
+    id: <input type="text" name="id" th:value="${sp.id}"> <br>
+    danh muc:
+    <select name="idDanhMuc">
+        <option value="">Chọn danh mục</option>
+        <th:block th:each="dm : ${listDanhMuc}">
+            <option th:value="${dm.id}" th:text="${dm.tenDanhMuc}" th:selected="${dm.id == sp.idDanhMuc.id}"></option>
+        </th:block>
+    </select> <br>
+    tensanpham: <input type="text" name="tenSanPham" th:value="${sp.tenSanPham}"> <br>
+    masanpham: <input type="text" name="maSanPham" th:value="${sp.maSanPham}"> <br>
+    mota: <input type="text" name="moTa" th:value="${sp.moTa}"> <br>
+    trangthai: <input type="radio" name="trangThai" value="1" th:checked="${sp.trangThai == 1}"> mo
+    <input type="radio" name="trangThai" value="0" th:checked="${sp.trangThai == 0}"> dong <br>
+    <button>update</button>
+</form>
+</body>
+</html>

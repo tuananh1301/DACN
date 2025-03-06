@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sản Phẩm</title>
+</head>
+<body>
+add:
+<form action="/admin/adddanhmuc" method="post">
+    danh muc:
+    <select name="idDanhMuc" required>
+        <option value="">Chọn danh mục</option>
+        <th:block th:each="dm : ${listDanhMuc}">
+            <option th:value="${dm.id}" th:text="${dm.tenDanhMuc}"></option>
+        </th:block>
+    </select> <br>
+    tensanpham: <input type="text" name="tenSanPham" required> <br>
+    masanpham: <input type="text" name="maSanPham" required> <br>
+    mota: <input type="text" name="moTa" required> <br>
+    trangthai: <input type="radio" name="trangThai" value="1" required> mo
+    <input type="radio" name="trangThai" value="0" required> dong <br>
+    <button>add</button>
+</form>
+hienthi:
+<table>
+    <thead>
+    <tr>
+        <th>id</th>
+        <th>danh muc</th>
+        <th>ten</th>
+        <th>ma</th>
+        <th>mo ta</th>
+        <th>trangthai</th>
+        <th rowspan="2">hoatdong</th>
+    </tr>
+    </thead>
+    <tbody>
+    <th:block th:each="sp: ${listSanPham}">
+        <tr>
+            <td th:text="${sp.id}"></td>
+            <td th:text="${sp.idDanhMuc.tenDanhMuc}"></td>
+            <td th:text="${sp.tenSanPham}"></td>
+            <td th:text="${sp.maSanPham}"></td>
+            <td th:text="${sp.moTa}"></td>
+            <td th:text="${sp.trangThai}"></td>
+            <td>
+                <a th:href="@{|/admin/detailsanpham/${sp.id}|}">detail</a>
+                <a th:href="@{|/admin/deletesanpham?id=${sp.id}|}">delete</a>
+            </td>
+        </tr>
+    </th:block>
+    </tbody>
+</table>
+</body>
+</html>

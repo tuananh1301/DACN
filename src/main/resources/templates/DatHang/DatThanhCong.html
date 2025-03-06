@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Đặt hàng thành công</title>
+  <style>
+    body { text-align: center; margin-top: 50px; }
+    h1 { color: #4CAF50; }
+    p { font-size: 18px; }
+    a { margin: 0 10px; text-decoration: none; color: blue; }
+  </style>
+</head>
+<body>
+<h1>Đặt hàng thành công!</h1>
+<p>Cảm ơn bạn đã đặt hàng. Mã đơn hàng của bạn là: <strong th:text="${orderId}"></strong></p>
+<a href="/customer/products">Tiếp tục mua sắm</a>
+<a href="/home">Quay lại trang chủ</a>
+</body>
+</html>

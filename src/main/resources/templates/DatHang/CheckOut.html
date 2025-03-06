@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Xác nhận đơn hàng</title>
+    <style>
+        table { border-collapse: collapse; width: 80%; margin: 20px auto; }
+        th, td { border: 1px solid black; padding: 8px; text-align: center; }
+        th { background-color: #f2f2f2; }
+        .form-group { margin: 10px 0; }
+        button { padding: 10px 20px; background-color: #4CAF50; color: white; border: none; cursor: pointer; }
+        button:hover { background-color: #45a049; }
+        a { margin: 0 10px; text-decoration: none; color: blue; }
+    </style>
+</head>
+<body>
+<h1>Xác nhận đơn hàng</h1>
+
+<table>
+    <thead>
+    <tr>
+        <th>Tên sản phẩm</th>
+        <th>Số lượng</th>
+        <th>Đơn giá</th>
+        <th>Thành tiền</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="item : ${cart.items}">
+        <td th:text="${item.tenSanPham}"></td>
+        <td th:text="${item.soLuongMua}"></td>
+        <td th:text="${item.donGia}"></td>
+        <td th:text="${item.thanhTien}"></td>
+    </tr>
+    </tbody>
+</table>
+<p>Tổng tiền sản phẩm: <span th:text="${cart.tongTien}"></span> VNĐ</p>
+<form th:action="@{/customer/place-order}" th:object="${orderForm}" method="post">
+    <div class="form-group">
+        <label for="diaChiGiaoHang">Địa chỉ giao hàng:</label><br/>
+        <input type="text" id="diaChiGiaoHang" th:field="*{diaChiGiaoHang}" required placeholder="Nhập địa chỉ giao hàng"/>
+    </div>
+
+    <div class="form-group">
+        <label for="idDonViVanChuyen">Đơn vị vận chuyển:</label><br/>
+        <select id="idDonViVanChuyen" th:field="*{idDonViVanChuyen}" required>
+            <option value="">-- Chọn đơn vị vận chuyển --</option>
+            <option th:each="dv : ${donViVanChuyens}"
+                    th:value="${dv.id}"
+                    th:text="${dv.tenDonVi} + ' (' + ${dv.phiVanChuyen} + ' VNĐ)'"></option>
+        </select>
+    </div>
+    <button type="submit">Đặt hàng</button>
+</form>
+
+<a href="/customer/products">Quay lại mua sắm</a>
+<a href="/home">Quay lại trang chủ</a>
+</body>
+</html>
