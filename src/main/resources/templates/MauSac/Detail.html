@@ -2,17 +2,40 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Màu Sắc</title>
+    <title>Màu Sắc - Cập Nhật</title>
+    <!-- Bootstrap 5 CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-update:
-<form action="/admin/updatemausac" method="post">
-    id: <input type="text" name="id" th:value="${ms.id}"> <br>
-    mamausac: <input type="text" name="maMauSac" th:value="${ms.maMauSac}"> <br>
-    tenmausac: <input type="text" name="tenMauSac" th:value="${ms.tenMauSac}"> <br>
-    trangthai: <input type="radio" name="trangThai" value="1" th:checked="${ms.trangThai == 1}"> mo
-    <input type="radio" name="trangThai" value="0" th:checked="${ms.trangThai == 0}"> dong <br>
-    <button>update</button>
+<body class="container mt-5">
+<h3 class="mb-4">Cập Nhật Màu Sắc</h3>
+<form action="/admin/updatemausac" method="post" class="border rounded p-4 shadow-sm">
+    <div class="mb-3">
+        <label for="id" class="form-label">ID:</label>
+        <input type="text" id="id" name="id" class="form-control" th:value="${ms.id}" readonly>
+    </div>
+    <div class="mb-3">
+        <label for="maMauSac" class="form-label">Mã màu sắc:</label>
+        <input type="text" id="maMauSac" name="maMauSac" class="form-control" th:value="${ms.maMauSac}">
+    </div>
+    <div class="mb-3">
+        <label for="tenMauSac" class="form-label">Tên màu sắc:</label>
+        <input type="text" id="tenMauSac" name="tenMauSac" class="form-control" th:value="${ms.tenMauSac}">
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Trạng thái:</label><br>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="trangThai" value="1" th:checked="${ms.trangThai == 1}" id="mo">
+            <label class="form-check-label" for="mo">Mở</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="trangThai" value="0" th:checked="${ms.trangThai == 0}" id="dong">
+            <label class="form-check-label" for="dong">Đóng</label>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-warning">Cập nhật</button>
 </form>
+
+<!-- Bootstrap JS Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
