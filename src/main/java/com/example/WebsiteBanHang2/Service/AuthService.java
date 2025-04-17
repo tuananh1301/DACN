@@ -6,5 +6,6 @@ import com.example.WebsiteBanHang2.Model.UserAccount;
 
 public interface AuthService {
     void register(RegisterRequest form);
+    void registerStaff(RegisterRequest form);
     UserAccount login(LoginForm form);
 }

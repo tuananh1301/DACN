@@ -1,7 +1,7 @@
 package com.example.WebsiteBanHang2.Service.impl;
 
-import com.example.WebsiteBanHang2.Exception.AppException;
-import com.example.WebsiteBanHang2.Exception.ErrorCode;
+//import com.example.WebsiteBanHang2.Exception.AppException;
+//import com.example.WebsiteBanHang2.Exception.ErrorCode;
 import com.example.WebsiteBanHang2.Model.LoginForm;
 import com.example.WebsiteBanHang2.Model.RegisterRequest;
 import com.example.WebsiteBanHang2.Model.CustomerInfo;
@@ -30,7 +30,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public void register(RegisterRequest form) {
         if (userAccountRepository.findByEmail(form.getEmail()) != null) {
-            throw new AppException(ErrorCode.EMAIL_IN_USE);
+//            throw new AppException(ErrorCode.EMAIL_IN_USE);
         }
         UserAccount user = new UserAccount();
         user.setEmail(form.getEmail());
@@ -38,6 +38,25 @@ public class AuthServiceImpl implements AuthService {
         user.setFirstName(form.getFirstName());
         user.setLastName(form.getLastName());
         user.setRole(UserAccount.Role.CUSTOMER);
+        user.setStatus((byte) 1);
+        UserAccount savedUser = userAccountRepository.save(user);
+
+        CustomerInfo customerInfo = new CustomerInfo();
+        customerInfo.setUserId(savedUser);
+        customerInfo.setPhone(form.getPhone());
+        customerInfo.setAddress(form.getAddress());
+        customerInfoRepository.save(customerInfo);
+    }
+    public void registerStaff(RegisterRequest form) {
+        if (userAccountRepository.findByEmail(form.getEmail()) != null) {
+//            throw new AppException(ErrorCode.EMAIL_IN_USE);
+        }
+        UserAccount user = new UserAccount();
+        user.setEmail(form.getEmail());
+        user.setPassword(passwordEncoder.encode(form.getPassword()));
+        user.setFirstName(form.getFirstName());
+        user.setLastName(form.getLastName());
+        user.setRole(UserAccount.Role.STAFF);
         user.setStatus((byte) 1);
         UserAccount savedUser = userAccountRepository.save(user);
 

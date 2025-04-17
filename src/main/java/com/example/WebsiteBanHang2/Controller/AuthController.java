@@ -1,5 +1,6 @@
 package com.example.WebsiteBanHang2.Controller;
 
+//import com.example.WebsiteBanHang2.Exception.AppException;
 import com.example.WebsiteBanHang2.Exception.AppException;
 import com.example.WebsiteBanHang2.Model.LoginForm;
 import com.example.WebsiteBanHang2.Model.RegisterRequest;
@@ -20,11 +21,27 @@ public class AuthController {
         model.addAttribute("userForm", new RegisterRequest());
         return "Auth/Register";
     }
+    @GetMapping("/registerStaff")
+    public String registerStaff(Model model) {
+        model.addAttribute("userForm", new RegisterRequest());
+        return "AdminTem/RegisterStaff";
+    }
+
     @PostMapping("/register")
     public String register(@ModelAttribute("userForm") RegisterRequest form, Model model) {
         try {
             authService.register(form);
             return "redirect:/login";
+        } catch (AppException e) {
+            model.addAttribute("error", e);
+            return "Auth/Register";
+        }
+    }
+    @PostMapping("/registerStaff")
+    public String registerStaff(@ModelAttribute("userForm") RegisterRequest form, Model model) {
+        try {
+            authService.registerStaff(form);
+            return "redirect:/registerStaff";
         } catch (AppException e) {
             model.addAttribute("error", e);
             return "Auth/Register";

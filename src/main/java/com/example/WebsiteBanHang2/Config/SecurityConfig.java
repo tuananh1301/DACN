@@ -5,11 +5,13 @@ import com.example.WebsiteBanHang2.Repository.UserAccountRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 @Configuration
 public class SecurityConfig {
@@ -29,13 +31,13 @@ public class SecurityConfig {
                         .requestMatchers("/customer/**").hasRole("CUSTOMER")
                         .requestMatchers("/staff/**").hasRole("STAFF")
                         .requestMatchers("/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/chatlieu").authenticated()
+                        .requestMatchers("/customer/products").authenticated()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
                         .loginPage("/login")
                         .loginProcessingUrl("/login")
-                        .defaultSuccessUrl("/chatlieu", true)
+                        .successHandler(authenticationSuccessHandler()) // Sử dụng handler tùy chỉnh
                         .failureUrl("/login?error=true")
                         .permitAll()
                 )
@@ -45,6 +47,28 @@ public class SecurityConfig {
                         .permitAll()
                 );
         return http.build();
+    }
+
+    @Bean
+    public AuthenticationSuccessHandler authenticationSuccessHandler() {
+        return (request, response, authentication) -> {
+            // Lấy danh sách roles của người dùng
+            for (GrantedAuthority authority : authentication.getAuthorities()) {
+                String role = authority.getAuthority();
+                if (role.equals("ROLE_ADMIN")) {
+                    response.sendRedirect("/admin"); // Chuyển hướng ADMIN đến dashboard
+                    return;
+                } else if (role.equals("ROLE_CUSTOMER")) {
+                    response.sendRedirect("/customer/products"); // Chuyển hướng CUSTOMER
+                    return;
+                } else if (role.equals("ROLE_STAFF")) {
+                    response.sendRedirect("/staff/orders"); // Chuyển hướng STAFF
+                    return;
+                }
+            }
+            // Mặc định nếu không có role phù hợp
+            response.sendRedirect("/customer/products");
+        };
     }
 
     @Bean

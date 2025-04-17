@@ -17,6 +17,7 @@ public class UserAccountServiceImpl implements UserAccountService {
     private UserAccountDTO converToUserAccountDTO(UserAccount userAccount) {
         UserAccountDTO userAccountDTO = new UserAccountDTO();
         userAccountDTO.setId(userAccount.getId());
+        userAccountDTO.setLastName(userAccount.getLastName());
         userAccountDTO.setEmail(userAccount.getEmail());
         userAccountDTO.setPassword(userAccount.getPassword());
         userAccountDTO.setRole(userAccount.getRole());
@@ -27,6 +28,7 @@ public class UserAccountServiceImpl implements UserAccountService {
     }
     private UserAccount converToUserAccount(UserAccountDTO userAccountDTO) {
         UserAccount userAccount = new UserAccount();
+        userAccount.setLastName(userAccountDTO.getLastName());
         userAccount.setId(userAccountDTO.getId());
         userAccount.setEmail(userAccountDTO.getEmail());
         userAccount.setPassword(userAccountDTO.getPassword());
@@ -60,5 +62,11 @@ public class UserAccountServiceImpl implements UserAccountService {
     public void deleteUserAccount(Integer id) {
         UserAccount userAccount = userAccountRepository.findById(id).orElseThrow(()-> new RuntimeException("UserAccount không có id này: " + id));
         userAccountRepository.delete(userAccount);
+    }
+
+    @Override
+    public UserAccountDTO getUserAccountByEmail(String email) {
+        UserAccount userAccount = userAccountRepository.findByEmail(email);
+        return converToUserAccountDTO(userAccount);
     }
 }

@@ -10,6 +10,7 @@ public class UserAccountDTO {
     private Integer id;
     private String email;
     private String password;
+    private String lastName;
     private UserAccount.Role role;
     private Byte status;
     private LocalDate lastLogin;

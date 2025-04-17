@@ -10,4 +10,5 @@ public interface UserAccountService {
     UserAccountDTO getUserAccountById(Integer id);
     UserAccountDTO createEndUpdateUserAccount(UserAccountDTO accountDTO);
     void deleteUserAccount(Integer id);
+    UserAccountDTO getUserAccountByEmail(String email);
 }

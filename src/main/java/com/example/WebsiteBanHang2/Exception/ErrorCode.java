@@ -3,7 +3,7 @@ package com.example.WebsiteBanHang2.Exception;
 public enum ErrorCode {
     OTHEREXCEPTION(1010,"Loi khong xac dinh"),
     INVALID_PASSWORD(900,"Password must be at lest 5 characters"),
-    INVALID_FIRST_NAME(902,"First name must be at lest 5 characters"),
+//    INVALID_FIRST_NAME(902,"First name must be at lest 5 characters"),
     EMAIL_IN_USE(901,"Email already used"),
     INVALID_INPUT(903,"Input is invalid"),
     ;
