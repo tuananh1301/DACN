@@ -3,41 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <title>Thương Hiệu</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-add:
-<form action="/admin/addthuonghieu" method="post">
-    mathuonghieu: <input type="text" name="maThuongHieu"> <br>
-    tenthuonghieu: <input type="text" name="tenThuongHieu"> <br>
-    trangthai: <input type="radio" name="trangThai" value="1"> mo
-    <input type="radio" name="trangThai" value="0"> dong <br>
-    <button type="submit">add</button>
-</form>
-hienthi:
-<table>
-    <thead>
-    <tr>
-        <th>id</th>
-        <th>ma</th>
-        <th>ten</th>
-        <th>trangthai</th>
-        <th rowspan="2">hoatdong</th>
-    </tr>
-    </thead>
-    <tbody>
-    <th:block th:each="th: ${listThuongHieu}">
+<body class="bg-light">
+
+<div class="container py-5">
+    <h2 class="mb-4">Thêm Thương Hiệu</h2>
+    <form action="/admin/addthuonghieu" method="post" class="card p-4 shadow-sm mb-5 bg-white rounded">
+        <div class="mb-3">
+            <label class="form-label">Mã Thương Hiệu</label>
+            <input type="text" name="maThuongHieu" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Tên Thương Hiệu</label>
+            <input type="text" name="tenThuongHieu" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label class="form-label d-block">Trạng Thái</label>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="trangThai" value="1" id="trangThaiMo">
+                <label class="form-check-label" for="trangThaiMo">Mở</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="trangThai" value="0" id="trangThaiDong">
+                <label class="form-check-label" for="trangThaiDong">Đóng</label>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Thêm</button>
+    </form>
+
+    <h2 class="mb-4">Danh Sách Thương Hiệu</h2>
+    <table class="table table-bordered table-striped shadow-sm bg-white">
+        <thead class="table-dark">
         <tr>
-            <td th:text="${th.id}"></td>
-            <td th:text="${th.maThuongHieu}"></td>
-            <td th:text="${th.tenThuongHieu}"></td>
-            <td th:text="${th.trangThai}"></td>
-            <td>
-                <a th:href="@{|/admin/detailthuonghieu/${th.id}|}">detail</a>
-                <a th:href="@{|/admin/deletethuonghieu?id=${th.id}|}">delete</a>
-            </td>
+            <th>ID</th>
+            <th>Mã</th>
+            <th>Tên</th>
+            <th>Trạng Thái</th>
+            <th>Hoạt Động</th>
         </tr>
-    </th:block>
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+        <th:block th:each="th: ${listThuongHieu}">
+            <tr>
+                <td th:text="${th.id}"></td>
+                <td th:text="${th.maThuongHieu}"></td>
+                <td th:text="${th.tenThuongHieu}"></td>
+                <td th:text="${th.trangThai == 1 ? 'Mở' : 'Đóng'}"></td>
+                <td>
+                    <a th:href="@{|/admin/detailthuonghieu/${th.id}|}" class="btn btn-sm btn-info me-1">Chi tiết</a>
+                    <a th:href="@{|/admin/deletethuonghieu?id=${th.id}|}" class="btn btn-sm btn-danger">Xóa</a>
+                </td>
+            </tr>
+        </th:block>
+        </tbody>
+    </table>
+    <a href="/admin" class="btn btn-secondary mt-3">Quay Lại Trang Admin</a>
+</div>
+
+<!-- Bootstrap JS Bundle (for optional JS behavior) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

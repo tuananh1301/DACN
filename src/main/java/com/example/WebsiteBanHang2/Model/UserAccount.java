@@ -25,7 +25,6 @@ public class UserAccount implements UserDetails {
     private String email;
     @Column(name = "password")
     private String password;
-    @Size(min = 5, max = 20, message = "INVALID_FIRST_NAME")
     @Column(name = "first_name")
     private String firstName;
 

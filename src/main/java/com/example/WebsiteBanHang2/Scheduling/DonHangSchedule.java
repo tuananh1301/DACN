@@ -27,8 +27,8 @@ public class DonHangSchedule {
         hoaDonRepository.saveAll(hoaDonList);
         System.out.println("Cập nhật trạng thái đơn hàng thành công lúc: " + LocalDateTime.now());
     }
-//    @Scheduled(cron = "0 0 12 * * ?")
-    @Scheduled(fixedRate = 60000)
+    @Scheduled(cron = "0 0 12 * * ?")
+//    @Scheduled(fixedRate = 60000)
     public void updateHoaDonCancelledStatus() {
         LocalDate twoDaysAgo = LocalDate.now().minusDays(2);
         List<HoaDon> hoaDonList = hoaDonRepository.findByTrangThaiVanChuyenAndNgayTaoBefore(HoaDon.TrangThaiVanChuyen.PENDING, twoDaysAgo);

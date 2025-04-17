@@ -81,26 +81,27 @@ public class SanPhamChiTietController {
     @GetMapping("/detailSPCT/{id}")
     public String detail(@PathVariable("id") Integer id, Model model) {
         SanPhamChiTietDTO spct = sanPhamChiTietService.getSanPhamChiTietById(id); // Ví dụ
-        logger.info("spct.thietKeId: {}", spct != null ? spct.getThietKeId() : "null");
+//        logger.info("spct.thietKeId: {}", spct != null ? spct.getThietKeId() : "null");
+        System.out.println(spct.toString());
         model.addAttribute("spct", spct);
         return "SPChiTiet/Detail";
     }
     @GetMapping("/deleteSPCT")
     public String delete(@RequestParam("id") Integer id) {
         sanPhamChiTietService.deleteSanPhamChiTiet(id);
-        return "redirect:/admin/sanphamchitiet";
+        return "redirect:/admin/SPCT";
     }
     @PostMapping("/addSPCT")
     public String add(SanPhamChiTietDTO SanPhamChiTiet) {
         SanPhamChiTiet.setNgayTao(LocalDate.now());
         SanPhamChiTiet.setNguoiCapNhat("ADMIN");
         sanPhamChiTietService.createEndUpdateSanPhamChiTiet(SanPhamChiTiet);
-        return "redirect:/admin/sanphamchitiet";
+        return "redirect:/admin/SPCT";
     }
     @PostMapping("/updateSPCT")
     public String update(SanPhamChiTietDTO SanPhamChiTiet) {
         SanPhamChiTiet.setNgayCapNhat(LocalDate.now());
         sanPhamChiTietService.createEndUpdateSanPhamChiTiet(SanPhamChiTiet);
-        return "redirect:/admin/sanphamchitiet";
+        return "redirect:/admin/SPCT";
     }
 }
