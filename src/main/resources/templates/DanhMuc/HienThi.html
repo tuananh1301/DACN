@@ -1,43 +1,107 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Quản lý Danh Mục</title>
+
+    <!-- Bootstrap CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+          crossorigin="anonymous">
+
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            margin-top: 40px;
+        }
+
+        .form-section, .table-section {
+            background-color: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+    </style>
 </head>
 <body>
-add:
-<form action="/admin/adddanhmuc" method="post">
-    madanhmuc: <input type="text" name="maDanhMuc"> <br>
-    tendanhmuc: <input type="text" name="tenDanhMuc"> <br>
-    trangthai: <input type="radio" name="trangThai" value="1"> mo
-    <input type="radio" name="trangThai" value="0"> dong <br>
-    <button>add</button>
-</form>
-hienthi:
-<table>
-    <thead>
-    <tr>
-        <th>id</th>
-        <th>ma</th>
-        <th>ten</th>
-        <th>trangthai</th>
-        <th rowspan="2">hoatdong</th>
-    </tr>
-    </thead>
-    <tbody>
-    <th:block th:each="dm: ${listDanhMuc}">
-        <tr>
-            <td th:text="${dm.id}"></td>
-            <td th:text="${dm.maDanhMuc}"></td>
-            <td th:text="${dm.tenDanhMuc}"></td>
-            <td th:text="${dm.trangThai}"></td>
-            <td>
-                <a th:href="@{|/admin/detaildanhmuc/${dm.id}|}">detail</a>
-                <a th:href="@{|/admin/deletedanhmuc?id=${dm.id}|}">delete</a>
-            </td>
-        </tr>
-    </th:block>
-    </tbody>
-</table>
+
+<div class="container">
+    <!-- Form thêm danh mục -->
+    <div class="form-section">
+        <h2>Thêm Danh Mục</h2>
+        <form action="/admin/adddanhmuc" method="post">
+            <div class="mb-3">
+                <label class="form-label">Mã danh mục:</label>
+                <input type="text" name="maDanhMuc" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Tên danh mục:</label>
+                <input type="text" name="tenDanhMuc" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Trạng thái:</label><br>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="trangThai" value="1" id="mo">
+                    <label class="form-check-label" for="mo">Mở</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="trangThai" value="0" id="dong">
+                    <label class="form-check-label" for="dong">Đóng</label>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Thêm</button>
+        </form>
+    </div>
+
+    <!-- Bảng hiển thị danh mục -->
+    <div class="table-section">
+        <h2>Danh sách Danh Mục</h2>
+        <table class="table table-bordered table-hover text-center">
+            <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Mã</th>
+                <th>Tên</th>
+                <th>Trạng thái</th>
+                <th>Hoạt động</th>
+            </tr>
+            </thead>
+            <tbody>
+            <th:block th:each="dm: ${listDanhMuc}">
+                <tr>
+                    <td th:text="${dm.id}"></td>
+                    <td th:text="${dm.maDanhMuc}"></td>
+                    <td th:text="${dm.tenDanhMuc}"></td>
+                    <td th:text="${dm.trangThai == 1 ? 'Mở' : 'Đóng'}"></td>
+                    <td>
+                        <a th:href="@{|/admin/detaildanhmuc/${dm.id}|}" class="btn btn-sm btn-info">Chi tiết</a>
+                        <a th:href="@{|/admin/deletedanhmuc?id=${dm.id}|}" class="btn btn-sm btn-danger">Xoá</a>
+                    </td>
+                </tr>
+            </th:block>
+            </tbody>
+        </table>
+
+        <a href="/admin" class="btn btn-secondary mt-3">Quay Lại Trang Admin</a>
+    </div>
+</div>
+
+<!-- Bootstrap JS CDN -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tYkD2e5r0rQxnNfJnj5fB0zD0tW48CLTIjlN2BtWl7cxcdYqY0B+EgLZ"
+        crossorigin="anonymous"></script>
+
 </body>
 </html>

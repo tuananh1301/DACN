@@ -1,32 +1,77 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Đăng ký tài khoản</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .register-form {
+            max-width: 500px;
+            margin: 60px auto;
+            padding: 30px;
+            border-radius: 10px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+    </style>
 </head>
 <body>
-<h1>Đăng ký tài khoản</h1>
-<div th:if="${error}" th:text="${error.getErrorCode().getCode()} + ${error.getMessage()}" style="color: red;"></div>
-<form th:action="@{/registerStaff}" th:object="${userForm}" method="post">
-    <label>Email:</label>
-    <input type="email" th:field="*{email}" required><br>
 
-    <label>Mật khẩu:</label>
-    <input type="password" th:field="*{password}" required><br>
+<div class="container">
+    <div class="register-form">
+        <h1>Đăng ký tài khoản</h1>
 
-    <label>Họ:</label>
-    <input type="text" th:field="*{firstName}" required><br>
+        <div th:if="${error}" th:text="${error.getErrorCode().getCode()} + ' ' + ${error.getMessage()}"
+             class="alert alert-danger" role="alert">
+        </div>
 
-    <label>Tên:</label>
-    <input type="text" th:field="*{lastName}" required><br>
+        <form th:action="@{/registerStaff}" th:object="${userForm}" method="post">
+            <div class="mb-3">
+                <label class="form-label">Email:</label>
+                <input type="email" th:field="*{email}" class="form-control" required>
+            </div>
 
-    <label>Số điện thoại:</label>
-    <input type="text" th:field="*{phone}"><br>
+            <div class="mb-3">
+                <label class="form-label">Mật khẩu:</label>
+                <input type="password" th:field="*{password}" class="form-control" required>
+            </div>
 
-    <label>Địa chỉ:</label>
-    <input type="text" th:field="*{address}"><br>
+            <div class="mb-3">
+                <label class="form-label">Họ:</label>
+                <input type="text" th:field="*{firstName}" class="form-control" required>
+            </div>
 
-    <button type="submit">Đăng ký</button>
-</form>
+            <div class="mb-3">
+                <label class="form-label">Tên:</label>
+                <input type="text" th:field="*{lastName}" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Số điện thoại:</label>
+                <input type="text" th:field="*{phone}" class="form-control">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Địa chỉ:</label>
+                <input type="text" th:field="*{address}" class="form-control">
+            </div>
+
+            <div class="d-grid">
+                <button type="submit" class="btn btn-primary">Đăng ký</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Bootstrap JS Bundle -->
+<script th:src="@{/js/bootstrap.bundle.js}"></script>
 </body>
 </html>

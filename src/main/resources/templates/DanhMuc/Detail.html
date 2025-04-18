@@ -1,18 +1,84 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Cập nhật Danh Mục</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+          crossorigin="anonymous">
+
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .update-container {
+            max-width: 600px;
+            margin: 60px auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
-update:
-<form action="/admin/updatedanhmuc" method="post">
-    id: <input type="text" name="id" th:value="${dm.id}">
-    madanhmuc: <input type="text" name="maDanhMuc" th:value="${dm.maDanhMuc}"> <br>
-    tendanhmuc: <input type="text" name="tenDanhMuc" th:value="${dm.tenDanhMuc}"> <br>
-    trangthai: <input type="radio" name="trangThai" value="1" th:checked="${dm.trangThai == 1}">  mo
-    <input type="radio" name="trangThai" value="0" th:checked="${dm.trangThai == 1}"> dong <br>
-    <button>update</button>
-</form>
+
+<div class="container">
+    <div class="update-container">
+        <h2>Cập nhật Danh Mục</h2>
+
+        <form action="/admin/updatedanhmuc" method="post">
+            <div class="mb-3">
+                <label for="id" class="form-label">ID:</label>
+                <input type="text" id="id" name="id" class="form-control" th:value="${dm.id}" readonly>
+            </div>
+
+            <div class="mb-3">
+                <label for="maDanhMuc" class="form-label">Mã danh mục:</label>
+                <input type="text" id="maDanhMuc" name="maDanhMuc" class="form-control" th:value="${dm.maDanhMuc}" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="tenDanhMuc" class="form-label">Tên danh mục:</label>
+                <input type="text" id="tenDanhMuc" name="tenDanhMuc" class="form-control" th:value="${dm.tenDanhMuc}" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Trạng thái:</label><br>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="trangThai" id="mo" value="1"
+                           th:checked="${dm.trangThai == 1}">
+                    <label class="form-check-label" for="mo">Mở</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="trangThai" id="dong" value="0"
+                           th:checked="${dm.trangThai == 0}">
+                    <label class="form-check-label" for="dong">Đóng</label>
+                </div>
+            </div>
+
+            <div class="d-grid">
+                <button type="submit" class="btn btn-success">Cập nhật</button>
+            </div>
+        </form>
+
+
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tYkD2e5r0rQxnNfJnj5fB0zD0tW48CLTIjlN2BtWl7cxcdYqY0B+EgLZ"
+        crossorigin="anonymous"></script>
+
 </body>
 </html>

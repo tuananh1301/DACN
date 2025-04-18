@@ -1,22 +1,107 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="UTF-8">
     <title>Đăng nhập</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+          crossorigin="anonymous">
+
+    <style>
+        body {
+            background-color: #f0f2f5;
+        }
+
+        .auth-wrapper {
+            display: flex;
+            min-height: 100vh;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .auth-box {
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+            max-width: 900px;
+            width: 100%;
+        }
+
+        .auth-image {
+            background-image: url('data:image/jpeg;base64,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'); /* Ảnh quần áo thể thao */
+            background-size: cover;
+            background-position: center;
+            min-height: 100%;
+        }
+
+        .login-form {
+            padding: 40px 30px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 25px;
+            font-weight: bold;
+        }
+
+        .register-link {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .auth-image {
+                display: none;
+            }
+        }
+    </style>
 </head>
 <body>
-<h1>Đăng nhập</h1>
-<div th:if="${param.error}" style="color: red;">
-    Email hoặc mật khẩu không đúng!
+
+<div class="container auth-wrapper">
+    <div class="row auth-box">
+        <!-- Cột hình ảnh -->
+        <div class="col-md-6 auth-image d-none d-md-block"></div>
+
+        <!-- Cột form đăng nhập -->
+        <div class="col-md-6 login-form">
+            <h1>Đăng nhập</h1>
+
+            <div th:if="${param.error}" class="alert alert-danger" role="alert">
+                Email hoặc mật khẩu không đúng!
+            </div>
+
+            <form th:action="@{/login}" method="post">
+                <div class="mb-3">
+                    <label for="username" class="form-label">Email:</label>
+                    <input type="text" name="username" id="username" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="password" class="form-label">Mật khẩu:</label>
+                    <input type="password" name="password" id="password" class="form-control" required>
+                </div>
+
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary">Đăng nhập</button>
+                </div>
+            </form>
+
+            <div class="register-link">
+                <a th:href="@{/register}">Chưa có tài khoản? Đăng ký</a>
+            </div>
+        </div>
+    </div>
 </div>
-<form th:action="@{/login}" method="post">
-    <label>Email:</label>
-    <input type="text" name="username" required><br>
 
-    <label>Mật khẩu:</label>
-    <input type="password" name="password" required><br>
-
-    <button type="submit">Đăng nhập</button>
-</form>
-<a href="/register">Chưa có tài khoản? Đăng ký</a>
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tYkD2e5r0rQxnNfJnj5fB0zD0tW48CLTIjlN2BtWl7cxcdYqY0B+EgLZ"
+        crossorigin="anonymous"></script>
 </body>
 </html>
+
+

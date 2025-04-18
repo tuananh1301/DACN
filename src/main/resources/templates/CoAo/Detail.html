@@ -1,18 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Cập Nhật Cổ Áo</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-update:
+<body class="container mt-5">
+
+<h2 class="mb-4">Cập Nhật Cổ Áo</h2>
 <form action="/admin/updatecoao" method="post">
-    id: <input type="text" name="id" th:value="${ca.id}">
-    macoao: <input type="text" name="maCoAo" th:value="${ca.maCoAo}"> <br>
-    tencoao: <input type="text" name="tenCoAo" th:value="${ca.tenCoAo}"> <br>
-    trangthai: <input type="radio" name="trangThai" value="1" th:checked="${ca.trangThai == 1}">  mo
-    <input type="radio" name="trangThai" value="0" th:checked="${ca.trangThai == 1}"> dong <br>
-    <button>update</button>
+    <div class="mb-3">
+        <label for="id" class="form-label">ID:</label>
+        <input type="text" name="id" id="id" class="form-control" th:value="${ca.id}" readonly>
+    </div>
+
+    <div class="mb-3">
+        <label for="maCoAo" class="form-label">Mã Cổ Áo:</label>
+        <input type="text" name="maCoAo" id="maCoAo" class="form-control" th:value="${ca.maCoAo}">
+    </div>
+
+    <div class="mb-3">
+        <label for="tenCoAo" class="form-label">Tên Cổ Áo:</label>
+        <input type="text" name="tenCoAo" id="tenCoAo" class="form-control" th:value="${ca.tenCoAo}">
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Trạng Thái:</label><br>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="trangThai" value="1" id="mo" th:checked="${ca.trangThai == 1}">
+            <label class="form-check-label" for="mo">Mở</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="trangThai" value="0" id="dong" th:checked="${ca.trangThai == 0}">
+            <label class="form-check-label" for="dong">Đóng</label>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-success">Cập Nhật</button>
 </form>
+
+<!-- Bootstrap JS (optional) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
