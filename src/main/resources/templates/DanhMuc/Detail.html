@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Cập nhật Danh Mục</title>
@@ -31,47 +31,44 @@
     </style>
 </head>
 <body>
+<div id="mainContent" th:fragment="content">
+    <div class="container">
+        <div class="update-container">
+            <h2>Cập nhật Danh Mục</h2>
 
-<div class="container">
-    <div class="update-container">
-        <h2>Cập nhật Danh Mục</h2>
-
-        <form action="/admin/updatedanhmuc" method="post">
-            <div class="mb-3">
-                <label for="id" class="form-label">ID:</label>
-                <input type="text" id="id" name="id" class="form-control" th:value="${dm.id}" readonly>
-            </div>
-
-            <div class="mb-3">
-                <label for="maDanhMuc" class="form-label">Mã danh mục:</label>
-                <input type="text" id="maDanhMuc" name="maDanhMuc" class="form-control" th:value="${dm.maDanhMuc}" required>
-            </div>
-
-            <div class="mb-3">
-                <label for="tenDanhMuc" class="form-label">Tên danh mục:</label>
-                <input type="text" id="tenDanhMuc" name="tenDanhMuc" class="form-control" th:value="${dm.tenDanhMuc}" required>
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label">Trạng thái:</label><br>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="trangThai" id="mo" value="1"
-                           th:checked="${dm.trangThai == 1}">
-                    <label class="form-check-label" for="mo">Mở</label>
+            <form action="/admin/updatedanhmuc" method="post" data-ajax="true">
+                <div class="mb-3">
+                    <label for="id" class="form-label">ID:</label>
+                    <input type="text" id="id" name="id" class="form-control" th:value="${dm.id}" readonly>
                 </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="trangThai" id="dong" value="0"
-                           th:checked="${dm.trangThai == 0}">
-                    <label class="form-check-label" for="dong">Đóng</label>
+
+                <div class="mb-3">
+                    <label for="maDanhMuc" class="form-label">Mã danh mục:</label>
+                    <input type="text" id="maDanhMuc" name="maDanhMuc" class="form-control" th:value="${dm.maDanhMuc}" required>
                 </div>
-            </div>
 
-            <div class="d-grid">
-                <button type="submit" class="btn btn-success">Cập nhật</button>
-            </div>
-        </form>
+                <div class="mb-3">
+                    <label for="tenDanhMuc" class="form-label">Tên danh mục:</label>
+                    <input type="text" id="tenDanhMuc" name="tenDanhMuc" class="form-control" th:value="${dm.tenDanhMuc}" required>
+                </div>
 
+                <div class="mb-3">
+                    <label class="form-label">Trạng thái:</label><br>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="trangThai" id="mo" value="1" th:checked="${dm.trangThai == 1}">
+                        <label class="form-check-label" for="mo">Mở</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="trangThai" id="dong" value="0" th:checked="${dm.trangThai == 0}">
+                        <label class="form-check-label" for="dong">Đóng</label>
+                    </div>
+                </div>
 
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-success">Cập nhật</button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
@@ -79,6 +76,31 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tYkD2e5r0rQxnNfJnj5fB0zD0tW48CLTIjlN2BtWl7cxcdYqY0B+EgLZ"
         crossorigin="anonymous"></script>
+
+<!-- AJAX logic -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const mainContent = document.getElementById("mainContent");
+
+        // Handle form submits with data-ajax="true"
+        document.body.addEventListener("submit", function (e) {
+            const form = e.target.closest("form[data-ajax='true']");
+            if (form) {
+                e.preventDefault();
+                const formData = new FormData(form);
+                fetch(form.action, {
+                    method: form.method,
+                    body: formData
+                })
+                    .then(response => response.text())
+                    .then(html => {
+                        mainContent.innerHTML = html;
+                    })
+                    .catch(error => console.error("Lỗi khi gửi form:", error));
+            }
+        });
+    });
+</script>
 
 </body>
 </html>

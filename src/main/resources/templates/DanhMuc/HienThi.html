@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Quản lý Danh Mục</title>
@@ -8,100 +8,113 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
           crossorigin="anonymous">
-
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
-
-        .container {
-            margin-top: 40px;
-        }
-
-        .form-section, .table-section {
-            background-color: white;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            margin-bottom: 30px;
-        }
-
-        h2 {
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
-    </style>
 </head>
-<body>
+<body class="container mt-5">
 
-<div class="container">
+<!-- PHẦN CHỨA FRAGMENT: để thay đổi nội dung bằng JS -->
+<div id="mainContent" th:fragment="content">
     <!-- Form thêm danh mục -->
-    <div class="form-section">
-        <h2>Thêm Danh Mục</h2>
-        <form action="/admin/adddanhmuc" method="post">
-            <div class="mb-3">
-                <label class="form-label">Mã danh mục:</label>
-                <input type="text" name="maDanhMuc" class="form-control" required>
+    <h2 class="mb-4">Thêm Danh Mục</h2>
+    <form action="/admin/adddanhmuc" method="post" class="mb-5" data-ajax="true">
+        <div class="mb-3">
+            <label for="maDanhMuc" class="form-label">Mã danh mục:</label>
+            <input type="text" name="maDanhMuc" id="maDanhMuc" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label for="tenDanhMuc" class="form-label">Tên danh mục:</label>
+            <input type="text" name="tenDanhMuc" id="tenDanhMuc" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Trạng Thái:</label><br>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="trangThai" value="1" id="mo">
+                <label class="form-check-label" for="mo">Mở</label>
             </div>
-
-            <div class="mb-3">
-                <label class="form-label">Tên danh mục:</label>
-                <input type="text" name="tenDanhMuc" class="form-control" required>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="trangThai" value="0" id="dong">
+                <label class="form-check-label" for="dong">Đóng</label>
             </div>
-
-            <div class="mb-3">
-                <label class="form-label">Trạng thái:</label><br>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="trangThai" value="1" id="mo">
-                    <label class="form-check-label" for="mo">Mở</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="trangThai" value="0" id="dong">
-                    <label class="form-check-label" for="dong">Đóng</label>
-                </div>
-            </div>
-
-            <button type="submit" class="btn btn-primary">Thêm</button>
-        </form>
-    </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Thêm</button>
+    </form>
 
     <!-- Bảng hiển thị danh mục -->
-    <div class="table-section">
-        <h2>Danh sách Danh Mục</h2>
-        <table class="table table-bordered table-hover text-center">
-            <thead class="table-dark">
+    <h2 class="mb-3">Danh Sách Danh Mục</h2>
+    <table class="table table-bordered table-hover">
+        <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Mã</th>
+            <th>Tên</th>
+            <th>Trạng Thái</th>
+            <th>Hành Động</th>
+        </tr>
+        </thead>
+        <tbody>
+        <th:block th:each="dm: ${listDanhMuc}">
             <tr>
-                <th>ID</th>
-                <th>Mã</th>
-                <th>Tên</th>
-                <th>Trạng thái</th>
-                <th>Hoạt động</th>
+                <td th:text="${dm.id}"></td>
+                <td th:text="${dm.maDanhMuc}"></td>
+                <td th:text="${dm.tenDanhMuc}"></td>
+                <td th:text="${dm.trangThai == 1 ? 'Mở' : 'Đóng'}"></td>
+                <td>
+                    <a class="btn btn-sm btn-info me-2"
+                       th:href="@{|/admin/detaildanhmuc/${dm.id}|}"
+                       data-ajax="true">Chi Tiết</a>
+                    <a class="btn btn-sm btn-danger"
+                       th:href="@{|/admin/deletedanhmuc?id=${dm.id}|}"
+                       data-ajax="true">Xóa</a>
+                </td>
             </tr>
-            </thead>
-            <tbody>
-            <th:block th:each="dm: ${listDanhMuc}">
-                <tr>
-                    <td th:text="${dm.id}"></td>
-                    <td th:text="${dm.maDanhMuc}"></td>
-                    <td th:text="${dm.tenDanhMuc}"></td>
-                    <td th:text="${dm.trangThai == 1 ? 'Mở' : 'Đóng'}"></td>
-                    <td>
-                        <a th:href="@{|/admin/detaildanhmuc/${dm.id}|}" class="btn btn-sm btn-info">Chi tiết</a>
-                        <a th:href="@{|/admin/deletedanhmuc?id=${dm.id}|}" class="btn btn-sm btn-danger">Xoá</a>
-                    </td>
-                </tr>
-            </th:block>
-            </tbody>
-        </table>
+        </th:block>
+        </tbody>
+    </table>
 
-        <a href="/admin" class="btn btn-secondary mt-3">Quay Lại Trang Admin</a>
-    </div>
+    <a href="/admin" class="btn btn-secondary mt-4" data-ajax="true">← Quay Lại Trang Admin</a>
 </div>
 
-<!-- Bootstrap JS CDN -->
+<!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tYkD2e5r0rQxnNfJnj5fB0zD0tW48CLTIjlN2BtWl7cxcdYqY0B+EgLZ"
         crossorigin="anonymous"></script>
 
+<!-- AJAX logic -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const mainContent = document.getElementById("mainContent");
+
+        // Handle all anchor links with data-ajax="true"
+        document.body.addEventListener("click", function (e) {
+            const target = e.target.closest("a[data-ajax='true']");
+            if (target) {
+                e.preventDefault();
+                fetch(target.href)
+                    .then(response => response.text())
+                    .then(html => {
+                        mainContent.innerHTML = html;
+                    })
+                    .catch(error => console.error("Lỗi khi load dữ liệu:", error));
+            }
+        });
+
+        // Handle form submits with data-ajax="true"
+        document.body.addEventListener("submit", function (e) {
+            const form = e.target.closest("form[data-ajax='true']");
+            if (form) {
+                e.preventDefault();
+                const formData = new FormData(form);
+                fetch(form.action, {
+                    method: form.method,
+                    body: formData
+                })
+                    .then(response => response.text())
+                    .then(html => {
+                        mainContent.innerHTML = html;
+                    })
+                    .catch(error => console.error("Lỗi khi gửi form:", error));
+            }
+        });
+    });
+</script>
 </body>
 </html>

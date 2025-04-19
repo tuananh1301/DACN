@@ -1,68 +1,107 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Quản Lý Kích Thước</title>
-    <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="container mt-5">
-<a href="/admin" class="btn btn-secondary mt-3">Quay Lại Trang Admin</a>
 
-<!-- Form thêm kích thước -->
-<h3 class="mb-4">Thêm Kích Thước</h3>
-<form action="/admin/addkichthuoc" method="post" class="border rounded p-4 shadow-sm mb-5">
-    <div class="mb-3">
-        <label for="maKichThuoc" class="form-label">Mã kích thước:</label>
-        <input type="text" id="maKichThuoc" name="maKichThuoc" class="form-control">
-    </div>
-    <div class="mb-3">
-        <label for="tenKichThuoc" class="form-label">Tên kích thước:</label>
-        <input type="text" id="tenKichThuoc" name="tenKichThuoc" class="form-control">
-    </div>
-    <div class="mb-3">
-        <label class="form-label">Trạng thái:</label><br>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" id="mo" name="trangThai" value="1">
-            <label class="form-check-label" for="mo">Mở</label>
+<div id="mainContent" th:fragment="content">
+    <!-- Form thêm kích thước -->
+    <h3 class="mb-4">Thêm Kích Thước</h3>
+    <form action="/admin/addkichthuoc" method="post" class="border rounded p-4 shadow-sm mb-5" data-ajax="true">
+        <div class="mb-3">
+            <label for="maKichThuoc" class="form-label">Mã kích thước:</label>
+            <input type="text" id="maKichThuoc" name="maKichThuoc" class="form-control" required>
         </div>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" id="dong" name="trangThai" value="0">
-            <label class="form-check-label" for="dong">Đóng</label>
+        <div class="mb-3">
+            <label for="tenKichThuoc" class="form-label">Tên kích thước:</label>
+            <input type="text" id="tenKichThuoc" name="tenKichThuoc" class="form-control" required>
         </div>
-    </div>
-    <button type="submit" class="btn btn-success">Thêm</button>
-</form>
+        <div class="mb-3">
+            <label class="form-label">Trạng thái:</label><br>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" id="mo" name="trangThai" value="1">
+                <label class="form-check-label" for="mo">Mở</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" id="dong" name="trangThai" value="0">
+                <label class="form-check-label" for="dong">Đóng</label>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-success">Thêm</button>
+    </form>
 
-<!-- Bảng hiển thị kích thước -->
-<h3 class="mb-3">Danh Sách Kích Thước</h3>
-<table class="table table-bordered table-hover shadow-sm">
-    <thead class="table-dark">
-    <tr>
-        <th>ID</th>
-        <th>Mã</th>
-        <th>Tên</th>
-        <th>Trạng Thái</th>
-        <th>Hoạt Động</th>
-    </tr>
-    </thead>
-    <tbody>
-    <th:block th:each="kt: ${listKichThuoc}">
+    <!-- Bảng hiển thị kích thước -->
+    <h3 class="mb-3">Danh Sách Kích Thước</h3>
+    <table class="table table-bordered table-hover shadow-sm">
+        <thead class="table-dark">
         <tr>
-            <td th:text="${kt.id}"></td>
-            <td th:text="${kt.maKichThuoc}"></td>
-            <td th:text="${kt.tenKichThuoc}"></td>
-            <td th:text="${kt.trangThai == 1 ? 'Mở' : 'Đóng'}"></td>
-            <td>
-                <a th:href="@{|/admin/detailkichthuoc/${kt.id}|}" class="btn btn-info btn-sm">Chi tiết</a>
-                <a th:href="@{|/admin/deletekichthuoc?id=${kt.id}|}" class="btn btn-danger btn-sm">Xóa</a>
-            </td>
+            <th>ID</th>
+            <th>Mã</th>
+            <th>Tên</th>
+            <th>Trạng Thái</th>
+            <th>Hoạt Động</th>
         </tr>
-    </th:block>
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+        <th:block th:each="kt: ${listKichThuoc}">
+            <tr>
+                <td th:text="${kt.id}"></td>
+                <td th:text="${kt.maKichThuoc}"></td>
+                <td th:text="${kt.tenKichThuoc}"></td>
+                <td th:text="${kt.trangThai == 1 ? 'Mở' : 'Đóng'}"></td>
+                <td>
+                    <a th:href="@{|/admin/detailkichthuoc/${kt.id}|}" class="btn btn-info btn-sm" data-ajax="true">Chi tiết</a>
+                    <a th:href="@{|/admin/deletekichthuoc?id=${kt.id}|}" class="btn btn-danger btn-sm" data-ajax="true">Xóa</a>
+                </td>
+            </tr>
+        </th:block>
+        </tbody>
+    </table>
 
-<!-- Bootstrap JS Bundle -->
+    <a href="/admin" class="btn btn-secondary mt-4" data-ajax="true">← Quay Lại Trang Admin</a>
+</div>
+
+<!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- AJAX logic -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const mainContent = document.getElementById("mainContent");
+
+        document.body.addEventListener("click", function (e) {
+            const target = e.target.closest("a[data-ajax='true']");
+            if (target) {
+                e.preventDefault();
+                fetch(target.href)
+                    .then(response => response.text())
+                    .then(html => {
+                        mainContent.innerHTML = html;
+                    })
+                    .catch(error => console.error("Lỗi khi load dữ liệu:", error));
+            }
+        });
+
+        document.body.addEventListener("submit", function (e) {
+            const form = e.target.closest("form[data-ajax='true']");
+            if (form) {
+                e.preventDefault();
+                const formData = new FormData(form);
+                fetch(form.action, {
+                    method: form.method,
+                    body: formData
+                })
+                    .then(response => response.text())
+                    .then(html => {
+                        mainContent.innerHTML = html;
+                    })
+                    .catch(error => console.error("Lỗi khi gửi form:", error));
+            }
+        });
+    });
+</script>
 </body>
 </html>

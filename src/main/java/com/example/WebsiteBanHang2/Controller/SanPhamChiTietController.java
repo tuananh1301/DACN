@@ -18,42 +18,49 @@ import java.util.List;
 @RequestMapping("/admin")
 public class SanPhamChiTietController {
     private static final Logger logger = LoggerFactory.getLogger(SanPhamChiTietController.class);
+
     @Autowired
     SanPhamRepository sanPhamRepository;
     @ModelAttribute("listSP")
-    List<SanPham> listSP(){
+    List<SanPham> listSP() {
         return sanPhamRepository.findAll();
     }
+
     @Autowired
     KichThuocRepository kichThuocRepository;
     @ModelAttribute("listKT")
-    List<KichThuoc> listKT(){
+    List<KichThuoc> listKT() {
         return kichThuocRepository.findAll();
     }
+
     @Autowired
     MauSacRepository mauSacRepository;
     @ModelAttribute("listMS")
-    List<MauSac> listMS(){
+    List<MauSac> listMS() {
         return mauSacRepository.findAll();
     }
+
     @Autowired
     ChatLieuRepository chatLieuRepository;
     @ModelAttribute("listCL")
-    List<ChatLieu> listCL(){
+    List<ChatLieu> listCL() {
         return chatLieuRepository.findAll();
     }
+
     @Autowired
     KieuDangRepository kieuDangRepository;
     @ModelAttribute("listKD")
-    List<KieuDang> listKD(){
+    List<KieuDang> listKD() {
         return kieuDangRepository.findAll();
     }
+
     @Autowired
     CoAoRepository coAoRepository;
     @ModelAttribute("listCA")
-    List<CoAo> listCA(){
+    List<CoAo> listCA() {
         return coAoRepository.findAll();
     }
+
     @Autowired
     ThietKeRepository thietKeRepository;
     @ModelAttribute("listTK")
@@ -62,46 +69,57 @@ public class SanPhamChiTietController {
         logger.info("listTK: {}", list);
         return list;
     }
+
     @Autowired
     ThuongHieuRepository thuongHieuRepository;
     @ModelAttribute("listTH")
-    List<ThuongHieu> listTH(){
+    List<ThuongHieu> listTH() {
         return thuongHieuRepository.findAll();
     }
-
 
     @Autowired
     private SanPhamChiTietService sanPhamChiTietService;
 
-    @GetMapping("/SPCT")
-    public String hienThi(Model model) {
+    // Trả về fragment danh sách sản phẩm chi tiết
+    @GetMapping("/fragment/SPCT")
+    public String sanPhamChiTietFragment(Model model) {
         model.addAttribute("listSanPhamChiTiet", sanPhamChiTietService.getList());
-        return "SPChiTiet/HienThi";
+        return "SPChiTiet/HienThi :: content";
     }
+
+    // Trả về fragment chi tiết sản phẩm
     @GetMapping("/detailSPCT/{id}")
     public String detail(@PathVariable("id") Integer id, Model model) {
-        SanPhamChiTietDTO spct = sanPhamChiTietService.getSanPhamChiTietById(id); // Ví dụ
-//        logger.info("spct.thietKeId: {}", spct != null ? spct.getThietKeId() : "null");
-        System.out.println(spct.toString());
+        SanPhamChiTietDTO spct = sanPhamChiTietService.getSanPhamChiTietById(id);
         model.addAttribute("spct", spct);
-        return "SPChiTiet/Detail";
+        return "SPChiTiet/Detail :: content";
     }
+
+    // Xóa và trả về fragment danh sách mới
     @GetMapping("/deleteSPCT")
-    public String delete(@RequestParam("id") Integer id) {
+    public String delete(@RequestParam("id") Integer id, Model model) {
         sanPhamChiTietService.deleteSanPhamChiTiet(id);
-        return "redirect:/admin/SPCT";
+        model.addAttribute("listSanPhamChiTiet", sanPhamChiTietService.getList());
+        // Trả về thẳng fragment, không redirect
+        return "SPChiTiet/HienThi :: content";
     }
+
+    // Thêm và trả về fragment danh sách mới
     @PostMapping("/addSPCT")
-    public String add(SanPhamChiTietDTO SanPhamChiTiet) {
-        SanPhamChiTiet.setNgayTao(LocalDate.now());
-        SanPhamChiTiet.setNguoiCapNhat("ADMIN");
-        sanPhamChiTietService.createEndUpdateSanPhamChiTiet(SanPhamChiTiet);
-        return "redirect:/admin/SPCT";
+    public String add(SanPhamChiTietDTO sanPhamChiTiet, Model model) {
+        sanPhamChiTiet.setNgayTao(LocalDate.now());
+        sanPhamChiTiet.setNguoiCapNhat("ADMIN");
+        sanPhamChiTietService.createEndUpdateSanPhamChiTiet(sanPhamChiTiet);
+        model.addAttribute("listSanPhamChiTiet", sanPhamChiTietService.getList());
+        return "SPChiTiet/HienThi :: content";
     }
+
+    // Cập nhật và trả về fragment danh sách mới
     @PostMapping("/updateSPCT")
-    public String update(SanPhamChiTietDTO SanPhamChiTiet) {
-        SanPhamChiTiet.setNgayCapNhat(LocalDate.now());
-        sanPhamChiTietService.createEndUpdateSanPhamChiTiet(SanPhamChiTiet);
-        return "redirect:/admin/SPCT";
+    public String update(SanPhamChiTietDTO sanPhamChiTiet, Model model) {
+        sanPhamChiTiet.setNgayCapNhat(LocalDate.now());
+        sanPhamChiTietService.createEndUpdateSanPhamChiTiet(sanPhamChiTiet);
+        model.addAttribute("listSanPhamChiTiet", sanPhamChiTietService.getList());
+        return "SPChiTiet/HienThi :: content";
     }
 }

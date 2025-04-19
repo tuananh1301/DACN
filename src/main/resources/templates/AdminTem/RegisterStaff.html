@@ -1,22 +1,24 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Đăng ký tài khoản</title>
+    <title>Đăng ký tài khoản nhân viên</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
     <style>
         body {
             background-color: #f8f9fa;
         }
+
         .register-form {
             max-width: 500px;
             margin: 60px auto;
             padding: 30px;
             border-radius: 10px;
             background-color: white;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
+
         h1 {
             text-align: center;
             margin-bottom: 30px;
@@ -24,16 +26,18 @@
     </style>
 </head>
 <body>
+<div class="container py-5" id="mainContent" th:fragment="content">
 
-<div class="container">
     <div class="register-form">
         <h1>Đăng ký tài khoản</h1>
 
+        <!-- Hiển thị lỗi nếu có -->
         <div th:if="${error}" th:text="${error.getErrorCode().getCode()} + ' ' + ${error.getMessage()}"
              class="alert alert-danger" role="alert">
         </div>
 
-        <form th:action="@{/registerStaff}" th:object="${userForm}" method="post">
+        <!-- Form đăng ký nhân viên -->
+        <form th:action="@{/registerStaff}" th:object="${userForm}" method="post"  data-ajax="true">
             <div class="mb-3">
                 <label class="form-label">Email:</label>
                 <input type="email" th:field="*{email}" class="form-control" required>
@@ -73,5 +77,44 @@
 
 <!-- Bootstrap JS Bundle -->
 <script th:src="@{/js/bootstrap.bundle.js}"></script>
+
+<!-- AJAX Handling Script -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const mainContent = document.getElementById("mainContent");
+
+        // Xử lý các liên kết có data-ajax="true"
+        document.querySelectorAll("a[data-ajax='true']").forEach(link => {
+            link.addEventListener("click", function (e) {
+                e.preventDefault();
+                fetch(this.href)
+                    .then(res => res.text())
+                    .then(html => {
+                        mainContent.innerHTML = html;
+                        initAjaxHandlers(); // Gắn lại sự kiện sau khi thay đổi nội dung
+                    })
+                    .catch(err => console.error("Lỗi AJAX:", err));
+            });
+        });
+
+        // Xử lý các form có data-ajax="true"
+        document.querySelectorAll("form[data-ajax='true']").forEach(form => {
+            form.addEventListener("submit", function (e) {
+                e.preventDefault();
+                const formData = new FormData(form);
+                fetch(form.action, {
+                    method: form.method,
+                    body: formData
+                })
+                    .then(res => res.text())
+                    .then(html => {
+                        mainContent.innerHTML = html;
+                        initAjaxHandlers(); // Gắn lại sự kiện sau khi nội dung mới load
+                    })
+                    .catch(err => console.error("Lỗi gửi form:", err));
+            });
+        });
+    });
+</script>
 </body>
 </html>

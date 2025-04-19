@@ -1,23 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Thương Hiệu</title>
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="bg-light">
 
-<div class="container py-5">
+<div class="container py-5" id="mainContent" th:fragment="content">
+
     <h2 class="mb-4">Thêm Thương Hiệu</h2>
-    <form action="/admin/addthuonghieu" method="post" class="card p-4 shadow-sm mb-5 bg-white rounded">
+    <form action="/admin/addthuonghieu" method="post" class="card p-4 shadow-sm mb-5 bg-white rounded" data-ajax="true">
         <div class="mb-3">
             <label class="form-label">Mã Thương Hiệu</label>
-            <input type="text" name="maThuongHieu" class="form-control">
+            <input type="text" name="maThuongHieu" class="form-control" required>
         </div>
         <div class="mb-3">
             <label class="form-label">Tên Thương Hiệu</label>
-            <input type="text" name="tenThuongHieu" class="form-control">
+            <input type="text" name="tenThuongHieu" class="form-control" required>
         </div>
         <div class="mb-3">
             <label class="form-label d-block">Trạng Thái</label>
@@ -52,17 +52,50 @@
                 <td th:text="${th.tenThuongHieu}"></td>
                 <td th:text="${th.trangThai == 1 ? 'Mở' : 'Đóng'}"></td>
                 <td>
-                    <a th:href="@{|/admin/detailthuonghieu/${th.id}|}" class="btn btn-sm btn-info me-1">Chi tiết</a>
-                    <a th:href="@{|/admin/deletethuonghieu?id=${th.id}|}" class="btn btn-sm btn-danger">Xóa</a>
+                    <a th:href="@{|/admin/detailthuonghieu/${th.id}|}" class="btn btn-sm btn-info me-1" data-ajax="true">Chi tiết</a>
+                    <a th:href="@{|/admin/deletethuonghieu?id=${th.id}|}" class="btn btn-sm btn-danger" data-ajax="true">Xóa</a>
                 </td>
             </tr>
         </th:block>
         </tbody>
     </table>
-    <a href="/admin" class="btn btn-secondary mt-3">Quay Lại Trang Admin</a>
+
+    <a href="/admin" class="btn btn-secondary mt-3" data-ajax="true">Quay Lại Trang Admin</a>
 </div>
 
-<!-- Bootstrap JS Bundle (for optional JS behavior) -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- AJAX Handling Script -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const mainContent = document.getElementById("mainContent");
+
+        document.body.addEventListener("click", function (e) {
+            const link = e.target.closest("a[data-ajax='true']");
+            if (link) {
+                e.preventDefault();
+                fetch(link.href)
+                    .then(res => res.text())
+                    .then(html => mainContent.innerHTML = html)
+                    .catch(err => console.error("Lỗi AJAX:", err));
+            }
+        });
+
+        document.body.addEventListener("submit", function (e) {
+            const form = e.target.closest("form[data-ajax='true']");
+            if (form) {
+                e.preventDefault();
+                const formData = new FormData(form);
+                fetch(form.action, {
+                    method: form.method,
+                    body: formData
+                })
+                    .then(res => res.text())
+                    .then(html => mainContent.innerHTML = html)
+                    .catch(err => console.error("Lỗi gửi form:", err));
+            }
+        });
+    });
+</script>
 </body>
 </html>
