@@ -29,5 +29,6 @@ public class SanPhamChiTietDTO {
     private LocalDate ngayTao;
     private LocalDate ngayCapNhat;
     private String nguoiCapNhat;
+    private String photo;
     private Byte trangThai;
 }

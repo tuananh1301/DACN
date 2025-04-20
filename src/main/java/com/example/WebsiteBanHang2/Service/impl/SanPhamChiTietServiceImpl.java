@@ -19,6 +19,7 @@ public class SanPhamChiTietServiceImpl implements SanPhamChiTietService {
     private SanPhamChiTietDTO convertToDto(SanPhamChiTiet sanPhamChiTiet) {
         SanPhamChiTietDTO sanPhamChiTietDTO = new SanPhamChiTietDTO();
         sanPhamChiTietDTO.setId(sanPhamChiTiet.getId());
+        sanPhamChiTietDTO.setPhoto(sanPhamChiTiet.getPhoto());
         sanPhamChiTietDTO.setSanPhamId(sanPhamChiTiet.getSanPhamId());
         sanPhamChiTietDTO.setKichThuocId(sanPhamChiTiet.getKichThuocId());
         sanPhamChiTietDTO.setMauSacId(sanPhamChiTiet.getMauSacId());
@@ -39,6 +40,7 @@ public class SanPhamChiTietServiceImpl implements SanPhamChiTietService {
     private SanPhamChiTiet convertToEntity(SanPhamChiTietDTO sanPhamChiTietDTO) {
         SanPhamChiTiet sanPhamChiTiet = new SanPhamChiTiet();
         sanPhamChiTiet.setId(sanPhamChiTietDTO.getId());
+        sanPhamChiTiet.setPhoto(sanPhamChiTietDTO.getPhoto());
         sanPhamChiTiet.setSanPhamId(sanPhamChiTietDTO.getSanPhamId());
         sanPhamChiTiet.setKichThuocId(sanPhamChiTietDTO.getKichThuocId());
         sanPhamChiTiet.setMauSacId(sanPhamChiTietDTO.getMauSacId());

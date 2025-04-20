@@ -3,14 +3,19 @@ package com.example.WebsiteBanHang2.Controller;
 import com.example.WebsiteBanHang2.Dto.SanPhamChiTietDTO;
 import com.example.WebsiteBanHang2.Model.*;
 import com.example.WebsiteBanHang2.Repository.*;
+import com.example.WebsiteBanHang2.Service.FileUploadService;
 import com.example.WebsiteBanHang2.Service.SanPhamChiTietService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -80,14 +85,12 @@ public class SanPhamChiTietController {
     @Autowired
     private SanPhamChiTietService sanPhamChiTietService;
 
-    // Trả về fragment danh sách sản phẩm chi tiết
     @GetMapping("/fragment/SPCT")
     public String sanPhamChiTietFragment(Model model) {
         model.addAttribute("listSanPhamChiTiet", sanPhamChiTietService.getList());
         return "SPChiTiet/HienThi :: content";
     }
 
-    // Trả về fragment chi tiết sản phẩm
     @GetMapping("/detailSPCT/{id}")
     public String detail(@PathVariable("id") Integer id, Model model) {
         SanPhamChiTietDTO spct = sanPhamChiTietService.getSanPhamChiTietById(id);
@@ -95,7 +98,6 @@ public class SanPhamChiTietController {
         return "SPChiTiet/Detail :: content";
     }
 
-    // Xóa và trả về fragment danh sách mới
     @GetMapping("/deleteSPCT")
     public String delete(@RequestParam("id") Integer id, Model model) {
         sanPhamChiTietService.deleteSanPhamChiTiet(id);
@@ -104,17 +106,22 @@ public class SanPhamChiTietController {
         return "SPChiTiet/HienThi :: content";
     }
 
-    // Thêm và trả về fragment danh sách mới
     @PostMapping("/addSPCT")
-    public String add(SanPhamChiTietDTO sanPhamChiTiet, Model model) {
+    public String add(SanPhamChiTietDTO sanPhamChiTiet, Model model, @RequestParam("image") MultipartFile multipartFile) throws IOException {
         sanPhamChiTiet.setNgayTao(LocalDate.now());
         sanPhamChiTiet.setNguoiCapNhat("ADMIN");
-        sanPhamChiTietService.createEndUpdateSanPhamChiTiet(sanPhamChiTiet);
+        if(!multipartFile.isEmpty()) {
+            String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+            sanPhamChiTiet.setPhoto(fileName);
+            SanPhamChiTietDTO savespct = sanPhamChiTietService.createEndUpdateSanPhamChiTiet(sanPhamChiTiet);
+
+            String uploadDir = "customer-photos/" + savespct.getId();
+            FileUploadService.uploadFile(uploadDir, fileName, multipartFile);
+        }
         model.addAttribute("listSanPhamChiTiet", sanPhamChiTietService.getList());
         return "SPChiTiet/HienThi :: content";
     }
 
-    // Cập nhật và trả về fragment danh sách mới
     @PostMapping("/updateSPCT")
     public String update(SanPhamChiTietDTO sanPhamChiTiet, Model model) {
         sanPhamChiTiet.setNgayCapNhat(LocalDate.now());

@@ -55,7 +55,21 @@ public class SanPhamChiTiet {
     @Column(name = "nguoi_cap_nhat")
     private String nguoiCapNhat;
 
+    @Column(name = "photo")
+    private String photo;
+
     @Column(name = "trang_thai")
     private Byte trangThai;
+
+    @Transient
+    private String photosPath;
+
+    public String getPhotosPath() {
+        if(id == null || photo==null){
+            return "img/shirt.png";
+        }
+        return "customer-photos/" + this.id+"/"+this.photo;
+    }
+
 
 }
