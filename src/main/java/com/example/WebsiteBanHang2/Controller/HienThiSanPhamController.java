@@ -23,7 +23,7 @@ public class HienThiSanPhamController {
     @Autowired
     SanPhamChiTietService sanPhamChiTietService;
 
-    @GetMapping("/products")
+    @GetMapping("/trangchu")
     public String hienThiSanPham(Model model) {
         model.addAttribute("sanPhamChiTiet", sanPhamChiTietService.getList());
         return "HienThiSanPham/Home";
@@ -46,7 +46,7 @@ public class HienThiSanPhamController {
             session.setAttribute("cart", cart);
         }
         cart.addItem(cartItem);
-        return "redirect:/customer/products";
+        return "redirect:/customer/trangchu";
     }
     @GetMapping("/cart")
     public String viewCart(HttpSession session, Model model) {
@@ -68,5 +68,15 @@ public class HienThiSanPhamController {
             cart.removeItem(sanPhamChiTietId);
         }
         return "redirect:/customer/cart";
+    }
+
+
+}
+@Controller
+
+class controllerHome{
+    @GetMapping("/trangchu")
+    public String forwardTrangChu() {
+        return "forward:/customer/trangchu";
     }
 }

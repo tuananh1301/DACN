@@ -25,7 +25,7 @@ public class OrderController {
     public String showCheckout(HttpSession session, Model model) {
         ShoppingCart cart = (ShoppingCart) session.getAttribute("cart");
         if (cart == null || cart.getItems().isEmpty()) {
-            return "redirect:/customer/products";
+            return "redirect:/customer/trangchu";
         }
         model.addAttribute("cart", cart);
         model.addAttribute("donViVanChuyens", donViVanChuyenRepository.findAll());
@@ -39,7 +39,7 @@ public class OrderController {
         ShoppingCart cart = (ShoppingCart) session.getAttribute("cart");
         System.out.println("User: " + (user != null ? user.getEmail() : "null"));
         if (cart == null || cart.getItems().isEmpty()) {
-            return "redirect:/customer/products";
+            return "redirect:/customer/trangchu";
         }
         if (user == null) {
             System.out.println("User is null, redirecting to login");
