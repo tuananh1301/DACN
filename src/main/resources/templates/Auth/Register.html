@@ -1,96 +1,120 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Đăng ký</title>
-
-    <!-- Bootstrap CSS CDN -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-          crossorigin="anonymous">
-
+    <title>Đăng ký tài khoản nhân viên</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
     <style>
         body {
             background-color: #f8f9fa;
         }
 
-        .register-container {
+        .register-form {
             max-width: 500px;
             margin: 60px auto;
             padding: 30px;
-            background-color: #ffffff;
-            border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
         h1 {
             text-align: center;
-            margin-bottom: 25px;
-            font-weight: bold;
-        }
-
-        .login-link {
-            text-align: center;
-            margin-top: 15px;
+            margin-bottom: 30px;
         }
     </style>
 </head>
 <body>
+<div class="container py-5" id="mainContent" th:fragment="content">
 
-<div class="container">
-    <div class="register-container">
+    <div class="register-form">
         <h1>Đăng ký tài khoản</h1>
 
-        <div th:if="${error}" class="alert alert-danger" role="alert"
-             th:text="${error.getErrorCode().getCode()} + ' - ' + ${error.getMessage()}">
+        <!-- Hiển thị lỗi nếu có -->
+        <div th:if="${error}" th:text="${error.getErrorCode().getCode()} + ' ' + ${error.getMessage()}"
+             class="alert alert-danger" role="alert">
         </div>
 
-        <form th:action="@{/register}" th:object="${userForm}" method="post">
+        <!-- Form đăng ký nhân viên -->
+        <form th:action="@{/registerStaff}" th:object="${userForm}" method="post"  data-ajax="true">
             <div class="mb-3">
-                <label for="email" class="form-label">Email:</label>
-                <input type="email" id="email" class="form-control" th:field="*{email}" required>
+                <label class="form-label">Email:</label>
+                <input type="email" th:field="*{email}" class="form-control" required>
             </div>
 
             <div class="mb-3">
-                <label for="password" class="form-label">Mật khẩu:</label>
-                <input type="password" id="password" class="form-control" th:field="*{password}" required>
+                <label class="form-label">Mật khẩu:</label>
+                <input type="password" th:field="*{password}" class="form-control" required>
             </div>
 
             <div class="mb-3">
-                <label for="firstName" class="form-label">Họ:</label>
-                <input type="text" id="firstName" class="form-control" th:field="*{firstName}" required>
+                <label class="form-label">Họ:</label>
+                <input type="text" th:field="*{firstName}" class="form-control" required>
             </div>
 
             <div class="mb-3">
-                <label for="lastName" class="form-label">Tên:</label>
-                <input type="text" id="lastName" class="form-control" th:field="*{lastName}" required>
+                <label class="form-label">Tên:</label>
+                <input type="text" th:field="*{lastName}" class="form-control" required>
             </div>
 
             <div class="mb-3">
-                <label for="phone" class="form-label">Số điện thoại:</label>
-                <input type="text" id="phone" class="form-control" th:field="*{phone}">
+                <label class="form-label">Số điện thoại:</label>
+                <input type="text" th:field="*{phone}" class="form-control">
             </div>
 
             <div class="mb-3">
-                <label for="address" class="form-label">Địa chỉ:</label>
-                <input type="text" id="address" class="form-control" th:field="*{address}">
+                <label class="form-label">Địa chỉ:</label>
+                <input type="text" th:field="*{address}" class="form-control">
             </div>
 
             <div class="d-grid">
-                <button type="submit" class="btn btn-success">Đăng ký</button>
+                <button type="submit" class="btn btn-primary">Đăng ký</button>
             </div>
         </form>
-
-        <div class="login-link">
-            <a th:href="@{/login}">Đã có tài khoản? Đăng nhập</a>
-        </div>
     </div>
 </div>
 
-<!-- Bootstrap JS CDN -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tYkD2e5r0rQxnNfJnj5fB0zD0tW48CLTIjlN2BtWl7cxcdYqY0B+EgLZ"
-        crossorigin="anonymous"></script>
+<!-- Bootstrap JS Bundle -->
+<script th:src="@{/js/bootstrap.bundle.js}"></script>
+
+<!-- AJAX Handling Script -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const mainContent = document.getElementById("mainContent");
+
+        // Xử lý các liên kết có data-ajax="true"
+        document.querySelectorAll("a[data-ajax='true']").forEach(link => {
+            link.addEventListener("click", function (e) {
+                e.preventDefault();
+                fetch(this.href)
+                    .then(res => res.text())
+                    .then(html => {
+                        mainContent.innerHTML = html;
+                        initAjaxHandlers(); // Gắn lại sự kiện sau khi thay đổi nội dung
+                    })
+                    .catch(err => console.error("Lỗi AJAX:", err));
+            });
+        });
+
+        // Xử lý các form có data-ajax="true"
+        document.querySelectorAll("form[data-ajax='true']").forEach(form => {
+            form.addEventListener("submit", function (e) {
+                e.preventDefault();
+                const formData = new FormData(form);
+                fetch(form.action, {
+                    method: form.method,
+                    body: formData
+                })
+                    .then(res => res.text())
+                    .then(html => {
+                        mainContent.innerHTML = html;
+                        initAjaxHandlers(); // Gắn lại sự kiện sau khi nội dung mới load
+                    })
+                    .catch(err => console.error("Lỗi gửi form:", err));
+            });
+        });
+    });
+</script>
 </body>
 </html>
-

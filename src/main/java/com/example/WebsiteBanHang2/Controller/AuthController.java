@@ -21,10 +21,10 @@ public class AuthController {
         model.addAttribute("userForm", new RegisterRequest());
         return "Auth/Register";
     }
-    @GetMapping("/registerStaff")
+    @GetMapping("/fragment/registerStaff")
     public String registerStaff(Model model) {
         model.addAttribute("userForm", new RegisterRequest());
-        return "AdminTem/RegisterStaff";
+        return "AdminTem/RegisterStaff :: content";
     }
 
     @PostMapping("/register")
@@ -37,14 +37,18 @@ public class AuthController {
             return "Auth/Register";
         }
     }
+
     @PostMapping("/registerStaff")
     public String registerStaff(@ModelAttribute("userForm") RegisterRequest form, Model model) {
         try {
+            // Gọi service để đăng ký nhân viên
             authService.registerStaff(form);
-            return "redirect:/registerStaff";
+            model.addAttribute("userForm", form); // Thêm lại form vào model nếu cần
+            return "AdminTem/RegisterStaff :: content"; // Trả về fragment đăng ký nhân viên sau khi thành công
         } catch (AppException e) {
+            // Nếu có lỗi, trả về lỗi cho người dùng
             model.addAttribute("error", e);
-            return "Auth/Register";
+            return "Auth/Register :: content"; // Trả về fragment lỗi
         }
     }
     @GetMapping("/login")

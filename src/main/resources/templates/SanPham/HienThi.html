@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sản Phẩm</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Quản Lý Sản Phẩm</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-<div class="container mt-5">
-    <h2>Thêm Sản Phẩm</h2>
-    <form action="/admin/addsanpham" method="post">
+<body class="container mt-5">
+<!-- templates/SanPham/HienThi.html -->
+<div id="mainContent" th:fragment="content">
+    <h2 class="mb-4">Thêm Sản Phẩm</h2>
+    <form action="/admin/addsanpham" method="post" data-ajax="true" class="mb-5">
         <div class="mb-3">
-            <label for="idDanhMuc" class="form-label">Danh Mục</label>
+            <label class="form-label">Danh Mục</label>
             <select class="form-select" name="idDanhMuc" required>
                 <option value="">Chọn danh mục</option>
                 <th:block th:each="dm : ${listDanhMuc}">
@@ -20,15 +20,15 @@
             </select>
         </div>
         <div class="mb-3">
-            <label for="tenSanPham" class="form-label">Tên Sản Phẩm</label>
+            <label class="form-label">Tên Sản Phẩm</label>
             <input type="text" class="form-control" name="tenSanPham" required>
         </div>
         <div class="mb-3">
-            <label for="maSanPham" class="form-label">Mã Sản Phẩm</label>
+            <label class="form-label">Mã Sản Phẩm</label>
             <input type="text" class="form-control" name="maSanPham" required>
         </div>
         <div class="mb-3">
-            <label for="moTa" class="form-label">Mô Tả</label>
+            <label class="form-label">Mô Tả</label>
             <input type="text" class="form-control" name="moTa" required>
         </div>
         <div class="mb-3">
@@ -39,21 +39,15 @@
         <button type="submit" class="btn btn-primary">Thêm Sản Phẩm</button>
     </form>
 
-    <h2 class="mt-5">Danh Sách Sản Phẩm</h2>
-    <table class="table table-bordered mt-3">
-        <thead>
+    <h2 class="mt-5 mb-3">Danh Sách Sản Phẩm</h2>
+    <table class="table table-bordered">
+        <thead class="table-dark">
         <tr>
-            <th>ID</th>
-            <th>Danh Mục</th>
-            <th>Tên</th>
-            <th>Mã</th>
-            <th>Mô Tả</th>
-            <th>Trạng Thái</th>
-            <th>Hoạt Động</th>
+            <th>ID</th><th>Danh Mục</th><th>Tên</th><th>Mã</th><th>Mô Tả</th><th>Trạng Thái</th><th>Hành Động</th>
         </tr>
         </thead>
         <tbody>
-        <th:block th:each="sp: ${listSanPham}">
+        <th:block th:each="sp : ${listSanPham}">
             <tr>
                 <td th:text="${sp.id}"></td>
                 <td th:text="${sp.idDanhMuc.tenDanhMuc}"></td>
@@ -62,16 +56,57 @@
                 <td th:text="${sp.moTa}"></td>
                 <td th:text="${sp.trangThai == 1 ? 'Mở' : 'Đóng'}"></td>
                 <td>
-                    <a th:href="@{|/admin/detailsanpham/${sp.id}|}" class="btn btn-info btn-sm">Chi Tiết</a>
-                    <a th:href="@{|/admin/deletesanpham?id=${sp.id}|}" class="btn btn-danger btn-sm">Xóa</a>
+                    <a th:href="@{|/admin/detailsanpham/${sp.id}|}"
+                       data-ajax="true"
+                       class="btn btn-info btn-sm">Chi Tiết</a>
+                    <a th:href="@{|/admin/deletesanpham?id=${sp.id}|}"
+                       data-ajax="true"
+                       class="btn btn-danger btn-sm">Xóa</a>
                 </td>
             </tr>
         </th:block>
         </tbody>
     </table>
-    <a href="/admin" class="btn btn-secondary mt-3">Quay Lại Trang Admin</a>
-</div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <a href="/admin" data-ajax="true" class="btn btn-secondary mt-4">← Quay Lại Trang Admin</a>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const mainContent = document.getElementById("mainContent");
+
+        // Handle all anchor links with data-ajax="true"
+        document.body.addEventListener("click", function (e) {
+            const target = e.target.closest("a[data-ajax='true']");
+            if (target) {
+                e.preventDefault();
+                fetch(target.href)
+                    .then(response => response.text())
+                    .then(html => {
+                        mainContent.innerHTML = html;
+                    })
+                    .catch(error => console.error("Lỗi khi load dữ liệu:", error));
+            }
+        });
+
+        // Handle form submits with data-ajax="true"
+        document.body.addEventListener("submit", function (e) {
+            const form = e.target.closest("form[data-ajax='true']");
+            if (form) {
+                e.preventDefault();
+                const formData = new FormData(form);
+                fetch(form.action, {
+                    method: form.method,
+                    body: formData
+                })
+                    .then(response => response.text())
+                    .then(html => {
+                        mainContent.innerHTML = html;
+                    })
+                    .catch(error => console.error("Lỗi khi gửi form:", error));
+            }
+        });
+    });
+</script>
 </body>
 </html>

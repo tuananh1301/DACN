@@ -1,67 +1,112 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Quản Lý Cổ Áo</title>
-    <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="container mt-5">
 
-<h2 class="mb-4">Thêm Cổ Áo</h2>
-<form action="/admin/addcoao" method="post" class="mb-5">
-    <div class="mb-3">
-        <label for="maCoAo" class="form-label">Mã Cổ Áo:</label>
-        <input type="text" name="maCoAo" id="maCoAo" class="form-control" required>
-    </div>
-    <div class="mb-3">
-        <label for="tenCoAo" class="form-label">Tên Cổ Áo:</label>
-        <input type="text" name="tenCoAo" id="tenCoAo" class="form-control" required>
-    </div>
-    <div class="mb-3">
-        <label class="form-label">Trạng Thái:</label><br>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="trangThai" value="1" id="mo">
-            <label class="form-check-label" for="mo">Mở</label>
+<!-- PHẦN CHỨA FRAGMENT: để thay đổi nội dung bằng JS -->
+<div id="mainContent" th:fragment="content">
+    <h2 class="mb-4">Thêm Cổ Áo</h2>
+    <form action="/admin/addcoao" method="post" class="mb-5" data-ajax="true">
+        <div class="mb-3">
+            <label for="maCoAo" class="form-label">Mã Cổ Áo:</label>
+            <input type="text" name="maCoAo" id="maCoAo" class="form-control" required>
         </div>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="trangThai" value="0" id="dong">
-            <label class="form-check-label" for="dong">Đóng</label>
+        <div class="mb-3">
+            <label for="tenCoAo" class="form-label">Tên Cổ Áo:</label>
+            <input type="text" name="tenCoAo" id="tenCoAo" class="form-control" required>
         </div>
-    </div>
-    <button type="submit" class="btn btn-primary">Thêm</button>
-</form>
+        <div class="mb-3">
+            <label class="form-label">Trạng Thái:</label><br>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="trangThai" value="1" id="mo">
+                <label class="form-check-label" for="mo">Mở</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="trangThai" value="0" id="dong">
+                <label class="form-check-label" for="dong">Đóng</label>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Thêm</button>
+    </form>
 
-<h2 class="mb-3">Danh Sách Cổ Áo</h2>
-<table class="table table-bordered table-hover">
-    <thead class="table-dark">
-    <tr>
-        <th>ID</th>
-        <th>Mã</th>
-        <th>Tên</th>
-        <th>Trạng Thái</th>
-        <th>Hành Động</th>
-    </tr>
-    </thead>
-    <tbody>
-    <th:block th:each="ca: ${listCoAo}">
+    <h2 class="mb-3">Danh Sách Cổ Áo</h2>
+    <table class="table table-bordered table-hover">
+        <thead class="table-dark">
         <tr>
-            <td th:text="${ca.id}"></td>
-            <td th:text="${ca.maCoAo}"></td>
-            <td th:text="${ca.tenCoAo}"></td>
-            <td th:text="${ca.trangThai == 1 ? 'Mở' : 'Đóng'}"></td>
-            <td>
-                <a class="btn btn-sm btn-info me-2" th:href="@{|/admin/detailcoao/${ca.id}|}">Chi Tiết</a>
-                <a class="btn btn-sm btn-danger" th:href="@{|/admin/deletecoao?id=${ca.id}|}">Xóa</a>
-            </td>
+            <th>ID</th>
+            <th>Mã</th>
+            <th>Tên</th>
+            <th>Trạng Thái</th>
+            <th>Hành Động</th>
         </tr>
-    </th:block>
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+        <th:block th:each="ca: ${listCoAo}">
+            <tr>
+                <td th:text="${ca.id}"></td>
+                <td th:text="${ca.maCoAo}"></td>
+                <td th:text="${ca.tenCoAo}"></td>
+                <td th:text="${ca.trangThai == 1 ? 'Mở' : 'Đóng'}"></td>
+                <td>
+                    <a class="btn btn-sm btn-info me-2"
+                       th:href="@{|/admin/detailcoao/${ca.id}|}"
+                       data-ajax="true">Chi Tiết</a>
+                    <a class="btn btn-sm btn-danger"
+                       th:href="@{|/admin/deletecoao?id=${ca.id}|}"
+                       data-ajax="true">Xóa</a>
+                </td>
+            </tr>
+        </th:block>
+        </tbody>
+    </table>
 
-<a href="/admin" class="btn btn-secondary mt-4">← Quay Lại Trang Admin</a>
+    <a href="/admin" class="btn btn-secondary mt-4" data-ajax="true">← Quay Lại Trang Admin</a>
+</div>
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- AJAX logic -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const mainContent = document.getElementById("mainContent");
+
+        // Handle all anchor links with data-ajax="true"
+        document.body.addEventListener("click", function (e) {
+            const target = e.target.closest("a[data-ajax='true']");
+            if (target) {
+                e.preventDefault();
+                fetch(target.href)
+                    .then(response => response.text())
+                    .then(html => {
+                        mainContent.innerHTML = html;
+                    })
+                    .catch(error => console.error("Lỗi khi load dữ liệu:", error));
+            }
+        });
+
+        // Handle form submits with data-ajax="true"
+        document.body.addEventListener("submit", function (e) {
+            const form = e.target.closest("form[data-ajax='true']");
+            if (form) {
+                e.preventDefault();
+                const formData = new FormData(form);
+                fetch(form.action, {
+                    method: form.method,
+                    body: formData
+                })
+                    .then(response => response.text())
+                    .then(html => {
+                        mainContent.innerHTML = html;
+                    })
+                    .catch(error => console.error("Lỗi khi gửi form:", error));
+            }
+        });
+    });
+</script>
 </body>
 </html>

@@ -8,39 +8,42 @@
 </head>
 <body class="container mt-5">
 
-<h2 class="mb-4">Cập Nhật Cổ Áo</h2>
-<form action="/admin/updatecoao" method="post">
-    <div class="mb-3">
-        <label for="id" class="form-label">ID:</label>
-        <input type="text" name="id" id="id" class="form-control" th:value="${ca.id}" readonly>
-    </div>
-
-    <div class="mb-3">
-        <label for="maCoAo" class="form-label">Mã Cổ Áo:</label>
-        <input type="text" name="maCoAo" id="maCoAo" class="form-control" th:value="${ca.maCoAo}">
-    </div>
-
-    <div class="mb-3">
-        <label for="tenCoAo" class="form-label">Tên Cổ Áo:</label>
-        <input type="text" name="tenCoAo" id="tenCoAo" class="form-control" th:value="${ca.tenCoAo}">
-    </div>
-
-    <div class="mb-3">
-        <label class="form-label">Trạng Thái:</label><br>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="trangThai" value="1" id="mo" th:checked="${ca.trangThai == 1}">
-            <label class="form-check-label" for="mo">Mở</label>
+<!-- Đây là fragment sẽ được load động -->
+<div id="mainContent" th:fragment="content">
+    <h2 class="mb-4">Cập Nhật Cổ Áo</h2>
+    <form action="/admin/updatecoao" method="post" data-ajax="true">
+        <div class="mb-3">
+            <label for="id" class="form-label">ID:</label>
+            <input type="text" name="id" id="id" class="form-control" th:value="${ca.id}" readonly>
         </div>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="trangThai" value="0" id="dong" th:checked="${ca.trangThai == 0}">
-            <label class="form-check-label" for="dong">Đóng</label>
+
+        <div class="mb-3">
+            <label for="maCoAo" class="form-label">Mã Cổ Áo:</label>
+            <input type="text" name="maCoAo" id="maCoAo" class="form-control" th:value="${ca.maCoAo}">
         </div>
-    </div>
 
-    <button type="submit" class="btn btn-success">Cập Nhật</button>
-</form>
+        <div class="mb-3">
+            <label for="tenCoAo" class="form-label">Tên Cổ Áo:</label>
+            <input type="text" name="tenCoAo" id="tenCoAo" class="form-control" th:value="${ca.tenCoAo}">
+        </div>
 
-<!-- Bootstrap JS (optional) -->
+        <div class="mb-3">
+            <label class="form-label">Trạng Thái:</label><br>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="trangThai" value="1" id="mo" th:checked="${ca.trangThai == 1}">
+                <label class="form-check-label" for="mo">Mở</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="trangThai" value="0" id="dong" th:checked="${ca.trangThai == 0}">
+                <label class="form-check-label" for="dong">Đóng</label>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-success">Cập Nhật</button>
+    </form>
+</div>
+
+<!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
