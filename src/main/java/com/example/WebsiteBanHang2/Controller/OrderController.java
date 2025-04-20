@@ -39,7 +39,7 @@ public class OrderController {
         ShoppingCart cart = (ShoppingCart) session.getAttribute("cart");
         System.out.println("User: " + (user != null ? user.getEmail() : "null"));
         if (cart == null || cart.getItems().isEmpty()) {
-            return "redirect:/customer/trangchu";
+            return "redirect:/trangchu";
         }
         if (user == null) {
             System.out.println("User is null, redirecting to login");

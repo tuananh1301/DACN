@@ -25,14 +25,13 @@ public class SecurityConfig {
                 .csrf().disable()
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/register", "/login").permitAll()
-                        .requestMatchers("/trangchu", "/customer/trangchu","customer/add-to-cart", "/customer/cart").permitAll()
+                        .requestMatchers("/trangchu", "/customer/trangchu", "/customer/add-to-cart", "/customer/cart").permitAll()
+                        .requestMatchers("/img/**", "/css/**", "/js/**", "/webjars/**", "/customer-photos/**").permitAll()
 
                         .requestMatchers("/customer/checkout").hasRole("CUSTOMER")
                         .requestMatchers("/customer/**").hasRole("CUSTOMER")
-
                         .requestMatchers("/staff/**").hasRole("STAFF")
                         .requestMatchers("/admin/**").hasRole("ADMIN")
-
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form

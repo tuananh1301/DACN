@@ -46,7 +46,7 @@ public class HienThiSanPhamController {
             session.setAttribute("cart", cart);
         }
         cart.addItem(cartItem);
-        return "redirect:/customer/trangchu";
+        return "redirect:/trangchu";
     }
     @GetMapping("/cart")
     public String viewCart(HttpSession session, Model model) {
