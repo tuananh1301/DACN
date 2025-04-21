@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Chi Tiết Sản Phẩm</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0; padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Helvetica, Arial, sans-serif;
+        }
+
+        .swatch {
+            display: inline-block;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 2px solid #ddd;
+            margin-right: 8px;
+            cursor: pointer;
+            transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+            position: relative;
+        }
+
+        .swatch.white {
+            border-color: #888;
+            box-shadow: 0 0 4px rgba(0,0,0,0.3);
+        }
+
+        .swatch.selected {
+            border: 3px solid #000;
+            box-shadow: 0 0 8px rgba(0,0,0,0.5);
+            transform: scale(1.1);
+        }
+
+        .swatch.white.selected {
+            border-color: #333;
+            box-shadow: 0 0 8px rgba(0,0,0,0.6);
+        }
+
+        .product-page {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #fff;
+            display: flex;
+            gap: 40px;
+            padding: 30px;
+            border-radius: 8px;
+        }
+
+        .product-image {
+            flex: 1;
+            text-align: center;
+        }
+
+        .product-image img {
+            width: 100%;
+            max-width: 400px;
+            height: auto;
+            border-radius: 8px;
+            object-fit: contain;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .product-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .product-info h1 {
+            font-size: 2rem;
+            line-height: 1.3;
+            color: #222;
+        }
+
+        .product-info .style-code {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .product-info .price {
+            font-size: 1.8rem;
+            color: #c8102e;
+            font-weight: bold;
+            margin-top: 8px;
+        }
+
+        .product-info .colors {
+            display: flex;
+            gap: 12px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+
+        .product-info .sizes {
+            display: flex;
+            gap: 12px;
+            margin-top: 16px;
+            flex-wrap: wrap;
+        }
+
+        .product-info .sizes .size-btn {
+            padding: 10px 20px;
+            border: 1px solid #ccc;
+            border-radius: 30px;
+            background: #fff;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #1a1a1a;
+            cursor: pointer;
+            transition: border-color 0.2s ease, background-color 0.2s ease;
+        }
+
+        .product-info .sizes .size-btn.selected {
+            border-color: #000;
+            background-color: #f0f0f0;
+        }
+
+        .product-info .quantity {
+            margin-top: 16px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .product-info .quantity label {
+            font-size: 1rem;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .product-info .quantity .quantity-input {
+            display: flex;
+            align-items: center;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            overflow: hidden;
+            background: #fff;
+        }
+
+        .product-info .quantity .quantity-input button {
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: #f8f8f8;
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: #333;
+            cursor: pointer;
+            transition: background-color 0.2s ease, color 0.2s ease, transform 0.1s ease;
+        }
+
+        .product-info .quantity .quantity-input button:hover {
+            background: #e0e0e0;
+            color: #000;
+        }
+
+        .product-info .quantity .quantity-input button:active {
+            transform: scale(0.95);
+        }
+
+        .product-info .quantity .quantity-input input {
+            width: 60px;
+            height: 36px;
+            border: none;
+            border-left: 1px solid #ccc;
+            border-right: 1px solid #ccc;
+            font-size: 1rem;
+            text-align: center;
+            background: #fff;
+            color: #333;
+            transition: border-color 0.2s ease;
+        }
+
+        .product-info .quantity .quantity-input input:focus {
+            outline: none;
+            border-left: 1px solid #000;
+            border-right: 1px solid #000;
+            box-shadow: 0 0 4px rgba(0,0,0,0.2);
+        }
+
+        .product-info .actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .product-info .actions .btn {
+            flex: 1;
+            padding: 14px;
+            font-size: 1rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .product-info .actions .add-to-cart {
+            background: #000;
+            color: #fff;
+        }
+
+        .product-info .actions .buy-now {
+            background: #c8102e;
+            color: #fff;
+        }
+
+        .product-info .actions .btn:hover {
+            opacity: 0.9;
+        }
+
+        .toast-container {
+            z-index: 1055;
+        }
+
+        @media (max-width: 768px) {
+            .product-page {
+                flex-direction: column;
+                padding: 20px;
+            }
+
+            .product-info .actions {
+                flex-direction: column;
+            }
+
+            .product-info .quantity .quantity-input {
+                transform: scale(0.9);
+            }
+
+            .product-info .quantity .quantity-input input {
+                width: 50px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<nav class="navbar navbar-expand-lg bg-white shadow-sm">
+    <div class="container-fluid px-4">
+        <a class="navbar-brand fw-bold fs-3" href="#">MOI</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="mainNavbar">
+            <ul class="navbar-nav mx-auto mb-2 mb-lg-0 gap-3 fw-semibold">
+                <li class="nav-item"><a class="nav-link" href="/admin/sanpham">Sản Phẩm</a></li>
+                <li class="nav-item"><a class="nav-link" href="/admin/chatlieu">Chất liệu</a></li>
+                <li class="nav-item"><a class="nav-link" href="/admin/coao">Cỡ Áo</a></li>
+                <li class="nav-item"><a class="nav-link" href="/admin/danhmuc">Danh Mục</a></li>
+                <li class="nav-item"><a class="nav-link" href="/admin/kichthuoc">Kích Thước</a></li>
+                <li class="nav-item"><a class="nav-link" href="/admin/kieudang">Kiểu Dáng</a></li>
+                <li class="nav-item"><a class="nav-link" href="/admin/mausac">Màu Sắc</a></li>
+            </ul>
+            <div class="d-flex align-items-center gap-3">
+                <i class="bi bi-search"></i>
+                <i class="bi bi-heart"></i>
+                <a href="/customer/cart"><i class="bi bi-cart"></i> <span th:text="${session.cart?.getTotalItems() ?: 0}"></span></a>
+                <span>EN / VI</span>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="product-page">
+    <div class="product-image">
+        <img th:src="@{'/customer-photos/' + ${spct.id} + '/' + ${spct.photo}}">
+    </div>
+
+    <div class="product-info">
+        <h1 th:text="${spct.sanPhamId.tenSanPham}">Tên sản phẩm</h1>
+        <div class="style-code" th:text="'Style Code: ' + ${spct.sanPhamId.maSanPham}">Style Code: XXX</div>
+        <div class="price" th:text="${formattedPrice}"></div>
+
+        <form id="cartForm" th:action="@{/customer/add-to-cart}" method="post">
+            <input type="hidden" name="id" th:value="${spct.id}">
+            <input type="hidden" id="mauSac" name="mauSac">
+            <input type="hidden" id="kichThuoc" name="kichThuoc">
+            <input type="hidden" id="soLuong" name="soLuong" value="1">
+
+            <div class="colors" th:if="${MauSac != null and not #lists.isEmpty(MauSac)}">
+                <div th:each="c : ${MauSac}"
+                     class="swatch"
+                     th:classappend="${c == 'white'} ? 'white' : ''"
+                     th:style="|background-color: ${c}|"
+                     th:attr="data-color=${c},onclick='selectColor(this)'">
+                </div>
+            </div>
+            <div th:if="${MauSac == null or #lists.isEmpty(MauSac)}" class="text-danger">
+                Không có màu sắc nào khả dụng
+            </div>
+
+            <div class="sizes" th:if="${KichThuoc != null and not #lists.isEmpty(KichThuoc)}">
+                <button type="button"
+                        th:each="sz : ${KichThuoc}"
+                        class="size-btn"
+                        th:attr="data-size=${sz},onclick='selectSize(this)'"
+                        th:text="${sz}">
+                </button>
+            </div>
+            <div th:if="${KichThuoc == null or #lists.isEmpty(KichThuoc)}" class="text-danger">
+                Không có kích thước nào khả dụng
+            </div>
+
+            <div class="quantity">
+                <label for="quantity">Số lượng:</label>
+                <div class="quantity-input">
+                    <button type="button" onclick="changeQuantity(-1)">−</button>
+                    <input type="number" id="quantity" value="1" min="1" step="1" th:max="${SoLuong}" readonly>
+                    <button type="button" onclick="changeQuantity(1)">+</button>
+                </div>
+            </div>
+
+            <div class="actions">
+                <button type="submit" class="btn add-to-cart" onclick="return validateForm()">THÊM VÀO GIỎ</button>
+                <button type="button" class="btn buy-now" onclick="buyNow()">MUA NGAY</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="cartToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <strong class="me-auto">Thông báo</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body"></div>
+    </div>
+</div>
+
+<script>
+    let selectedColor = null;
+    let selectedSize = null;
+
+    document.addEventListener('DOMContentLoaded', () => {
+        console.log('DOM loaded, initializing color and size');
+        const firstSwatch = document.querySelector('.swatch');
+        const firstSize = document.querySelector('.size-btn');
+        if (firstSwatch) {
+            console.log('Selecting first color:', firstSwatch.dataset.color);
+            selectColor(firstSwatch);
+        } else {
+            console.warn('No color swatch found');
+        }
+        if (firstSize) {
+            console.log('Selecting first size:', firstSize.dataset.size);
+            selectSize(firstSize);
+        } else {
+            console.warn('No size button found');
+        }
+        if (message) {
+            console.log('Showing message:', message);
+            showToast(message);
+        }
+        if (error) {
+            console.log('Showing error:', error);
+            showToast(error, true);
+        }
+    });
+
+    function selectColor(element) {
+        const color = element.dataset.color;
+        console.log('Clicked color:', color);
+        selectedColor = color;
+        document.querySelectorAll('.swatch').forEach(el => {
+            el.classList.toggle('selected', el.dataset.color === color);
+        });
+        document.getElementById('mauSac').value = color;
+        console.log('Updated mauSac input:', color);
+    }
+
+    function selectSize(element) {
+        const size = element.dataset.size;
+        console.log('Clicked size:', size);
+        selectedSize = size;
+        document.querySelectorAll('.size-btn').forEach(el => {
+            el.classList.toggle('selected', el.dataset.size === size);
+        });
+        document.getElementById('kichThuoc').value = size;
+        console.log('Updated kichThuoc input:', size);
+    }
+
+    function changeQuantity(delta) {
+        const input = document.getElementById('quantity');
+        const hiddenInput = document.getElementById('soLuong');
+        const max = parseInt(input.max) || Infinity;
+        let value = parseInt(input.value) + delta;
+        if (isNaN(value)) value = 1;
+        if (value < 1) value = 1;
+        if (value > max) value = max;
+        input.value = value;
+        hiddenInput.value = value;
+        console.log('Quantity changed to:', value, 'Max:', max);
+    }
+
+    function validateForm() {
+        console.log('Validating form. Selected color:', selectedColor, 'Selected size:', selectedSize);
+        if (!selectedColor || !selectedSize) {
+            showToast('Vui lòng chọn màu và kích thước', true);
+            return false;
+        }
+        const quantity = parseInt(document.getElementById('quantity').value);
+        const maxQuantity = parseInt(document.getElementById('quantity').max) || Infinity;
+        console.log('Quantity:', quantity, 'Max quantity:', maxQuantity);
+        if (isNaN(quantity) || quantity < 1 || quantity > maxQuantity) {
+            showToast('Vui lòng nhập số lượng hợp lệ (tối thiểu 1, tối đa ' + maxQuantity + ')', true);
+            return false;
+        }
+        console.log('Form validated, submitting');
+        return true;
+    }
+
+    function showToast(message, isError = false) {
+        console.log('Showing toast:', message, 'Is error:', isError);
+        const toast = document.getElementById('cartToast');
+        const toastBody = toast.querySelector('.toast-body');
+        toastBody.textContent = message;
+        toast.classList.toggle('bg-danger', isError);
+        toast.classList.toggle('bg-success', !isError);
+        const bsToast = new bootstrap.Toast(toast);
+        bsToast.show();
+    }
+
+    function buyNow() {
+        console.log('Buy now clicked');
+        if (validateForm()) {
+            const form = document.getElementById('cartForm');
+            form.addEventListener('submit', () => {
+                setTimeout(() => {
+                    console.log('Redirecting to checkout');
+                    window.location.href = '/customer/checkout';
+                }, 500);
+            }, { once: true });
+            form.submit();
+        }
+    }
+</script>
+</body>
+</html>

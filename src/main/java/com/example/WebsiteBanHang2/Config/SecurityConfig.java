@@ -25,8 +25,8 @@ public class SecurityConfig {
                 .csrf().disable()
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/register", "/login").permitAll()
-                        .requestMatchers("/trangchu", "/customer/trangchu", "/customer/add-to-cart", "/customer/cart").permitAll()
-                        .requestMatchers("/img/**", "/css/**", "/js/**", "/webjars/**", "/customer-photos/**").permitAll()
+                        .requestMatchers("/trangchu", "/customer/trangchu", "/customer/add-to-cart", "/customer/cart", "/customer/san-pham/**").permitAll()
+                        .requestMatchers("/img/**", "/css/**", "/js/**", "/webjars/**", "/customer-photos/**", "/customer/remove-from-cart/**").permitAll()
 
                         .requestMatchers("/customer/checkout").hasRole("CUSTOMER")
                         .requestMatchers("/customer/**").hasRole("CUSTOMER")

@@ -31,4 +31,5 @@ public class SanPhamChiTietDTO {
     private String nguoiCapNhat;
     private String photo;
     private Byte trangThai;
+
 }

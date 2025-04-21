@@ -41,14 +41,12 @@ public class AuthController {
     @PostMapping("/registerStaff")
     public String registerStaff(@ModelAttribute("userForm") RegisterRequest form, Model model) {
         try {
-            // Gọi service để đăng ký nhân viên
             authService.registerStaff(form);
-            model.addAttribute("userForm", form); // Thêm lại form vào model nếu cần
-            return "AdminTem/RegisterStaff :: content"; // Trả về fragment đăng ký nhân viên sau khi thành công
+            model.addAttribute("userForm", form);
+            return "AdminTem/RegisterStaff :: content";
         } catch (AppException e) {
-            // Nếu có lỗi, trả về lỗi cho người dùng
             model.addAttribute("error", e);
-            return "Auth/Register :: content"; // Trả về fragment lỗi
+            return "Auth/Register :: content";
         }
     }
     @GetMapping("/login")

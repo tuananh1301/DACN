@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -87,5 +88,29 @@ public class SanPhamChiTietServiceImpl implements SanPhamChiTietService {
         SanPhamChiTiet sanPhamChiTiet = sanPhamChiTietRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Sản phẩm chi tiết không tồn tại với ID: " + id));
         sanPhamChiTietRepository.delete(sanPhamChiTiet);
+    }
+
+    @Override
+    public SanPhamChiTiet findSanPhamChiTietById(Integer id) {
+        return sanPhamChiTietRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public List<SanPhamChiTiet> getBySanPham() {
+        return sanPhamChiTietRepository.getGroupBySanPham();
+    }
+
+    @Override
+    public List<String> getKichThuocBySanPham(Integer id) {
+        return sanPhamChiTietRepository.findDistinctKichThuocIdsBySanPhamId(id);
+    }
+    @Override
+    public List<String> getMauSacBySanPham(Integer id) {
+        return sanPhamChiTietRepository.findDistinctMauSacIdsBySanPhamId(id);
+    }
+
+    @Override
+    public Integer findSoLuongBySanPhamChiTiet(Integer id) {
+        return sanPhamChiTietRepository.findSoLuongIdsBySanPhamId(id);
     }
 }

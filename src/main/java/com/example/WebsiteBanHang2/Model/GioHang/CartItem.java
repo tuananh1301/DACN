@@ -9,12 +9,21 @@ public class CartItem {
     private String tenSanPham;
     private Integer soLuongMua;
     private BigDecimal donGia;
+    private String mauSac;
+    private String kichThuoc;
+    private String photo;
+    private String formattedDonGia;
+    private String formattedThanhTien;
 
-    public CartItem(Integer id, String tenSanPham, Integer soLuongMua, BigDecimal donGia) {
-        this.sanPhamChiTietId = id;
+    public CartItem(Integer sanPhamChiTietId, String tenSanPham, Integer soLuongMua, BigDecimal donGia,
+                    String mauSac, String kichThuoc, String photo) {
+        this.sanPhamChiTietId = sanPhamChiTietId;
         this.tenSanPham = tenSanPham;
         this.soLuongMua = soLuongMua;
         this.donGia = donGia;
+        this.mauSac = mauSac;
+        this.kichThuoc = kichThuoc;
+        this.photo = photo;
     }
 
     public BigDecimal getThanhTien() {

@@ -31,13 +31,11 @@
     <div class="register-form">
         <h1>Đăng ký tài khoản</h1>
 
-        <!-- Hiển thị lỗi nếu có -->
         <div th:if="${error}" th:text="${error.getErrorCode().getCode()} + ' ' + ${error.getMessage()}"
              class="alert alert-danger" role="alert">
         </div>
 
-        <!-- Form đăng ký nhân viên -->
-        <form th:action="@{/registerStaff}" th:object="${userForm}" method="post"  data-ajax="true">
+        <form th:action="@{/register}" th:object="${userForm}" method="post"  data-ajax="true">
             <div class="mb-3">
                 <label class="form-label">Email:</label>
                 <input type="email" th:field="*{email}" class="form-control" required>
@@ -75,15 +73,12 @@
     </div>
 </div>
 
-<!-- Bootstrap JS Bundle -->
 <script th:src="@{/js/bootstrap.bundle.js}"></script>
 
-<!-- AJAX Handling Script -->
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const mainContent = document.getElementById("mainContent");
 
-        // Xử lý các liên kết có data-ajax="true"
         document.querySelectorAll("a[data-ajax='true']").forEach(link => {
             link.addEventListener("click", function (e) {
                 e.preventDefault();
@@ -91,13 +86,12 @@
                     .then(res => res.text())
                     .then(html => {
                         mainContent.innerHTML = html;
-                        initAjaxHandlers(); // Gắn lại sự kiện sau khi thay đổi nội dung
+                        initAjaxHandlers();
                     })
                     .catch(err => console.error("Lỗi AJAX:", err));
             });
         });
 
-        // Xử lý các form có data-ajax="true"
         document.querySelectorAll("form[data-ajax='true']").forEach(form => {
             form.addEventListener("submit", function (e) {
                 e.preventDefault();
@@ -109,7 +103,7 @@
                     .then(res => res.text())
                     .then(html => {
                         mainContent.innerHTML = html;
-                        initAjaxHandlers(); // Gắn lại sự kiện sau khi nội dung mới load
+                        initAjaxHandlers();
                     })
                     .catch(err => console.error("Lỗi gửi form:", err));
             });

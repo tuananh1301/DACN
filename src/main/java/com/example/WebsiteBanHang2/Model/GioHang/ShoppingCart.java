@@ -5,23 +5,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ShoppingCart {
-    private List<CartItem> items;
-    public ShoppingCart() {
-        this.items = new ArrayList<>();
-    }
+    private List<CartItem> items = new ArrayList<>();
 
     public void addItem(CartItem item) {
-        for (CartItem existingItem : items) {
-            if (existingItem.getSanPhamChiTietId().equals(item.getSanPhamChiTietId())) {
-                existingItem.setSoLuongMua(existingItem.getSoLuongMua() + item.getSoLuongMua());
-                return;
-            }
-        }
         items.add(item);
     }
 
-    public void removeItem(Integer sanPhamChiTietId) {
-        items.removeIf(item -> item.getSanPhamChiTietId().equals(sanPhamChiTietId));
+    public List<CartItem> getItems() {
+        return items;
+    }
+
+    public int getTotalItems() {
+        return items.stream().mapToInt(CartItem::getSoLuongMua).sum();
     }
 
     public BigDecimal getTongTien() {
@@ -30,6 +25,7 @@ public class ShoppingCart {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-    public List<CartItem> getItems() { return items; }
-    public void setItems(List<CartItem> items) { this.items = items; }
+    public void removeItem(Integer sanPhamChiTietId) {
+        items.removeIf(item -> item.getSanPhamChiTietId().equals(sanPhamChiTietId));
+    }
 }
