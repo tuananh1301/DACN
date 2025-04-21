@@ -4,22 +4,65 @@
     <meta charset="UTF-8">
     <title>Quản Lý Màu Sắc</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #fff;
+            color: #000;
+        }
+
+        .form-control, .form-check-input {
+            border: 1px solid #000;
+        }
+
+        .form-control:focus, .form-check-input:focus {
+            box-shadow: none;
+            border-color: #000;
+        }
+
+        .btn-outline-dark {
+            color: #000;
+            border-color: #000;
+        }
+
+        .btn-outline-dark:hover {
+            background-color: #000;
+            color: #fff;
+        }
+
+        .table {
+            border: 1px solid #000;
+        }
+
+        .table th, .table td {
+            border: 1px solid #000;
+        }
+
+        thead.table-dark {
+            background-color: #000;
+            color: #fff;
+        }
+
+        .card {
+            border: 1px solid #000;
+            background-color: #fff;
+        }
+    </style>
 </head>
 <body class="container mt-4">
 
 <div id="mainContent" th:fragment="content">
     <h3 class="mb-3">Thêm Màu Sắc</h3>
-    <form action="/admin/addmausac" method="post" class="mb-5 border rounded p-4 shadow-sm" data-ajax="true">
+    <form action="/admin/addmausac" method="post" class="mb-5 p-4 card" data-ajax="true">
         <div class="mb-3">
-            <label for="maMauSac" class="form-label">Mã màu sắc:</label>
+            <label for="maMauSac" class="form-label fw-semibold">Mã màu sắc:</label>
             <input type="text" id="maMauSac" name="maMauSac" class="form-control" required>
         </div>
         <div class="mb-3">
-            <label for="tenMauSac" class="form-label">Tên màu sắc:</label>
+            <label for="tenMauSac" class="form-label fw-semibold">Tên màu sắc:</label>
             <input type="text" id="tenMauSac" name="tenMauSac" class="form-control" required>
         </div>
         <div class="mb-3">
-            <label class="form-label">Trạng thái:</label><br>
+            <label class="form-label fw-semibold">Trạng thái:</label><br>
             <div class="form-check form-check-inline">
                 <input class="form-check-input" type="radio" name="trangThai" value="1" id="mo">
                 <label class="form-check-label" for="mo">Mở</label>
@@ -29,12 +72,12 @@
                 <label class="form-check-label" for="dong">Đóng</label>
             </div>
         </div>
-        <button type="submit" class="btn btn-primary">Thêm</button>
+        <button type="submit" class="btn btn-outline-dark">Thêm</button>
     </form>
 
     <h3>Danh Sách Màu Sắc</h3>
-    <table class="table table-bordered table-hover shadow-sm">
-        <thead class="table-light">
+    <table class="table table-bordered">
+        <thead class="table-dark">
         <tr>
             <th>ID</th>
             <th>Mã</th>
@@ -51,21 +94,19 @@
                 <td th:text="${ms.tenMauSac}"></td>
                 <td th:text="${ms.trangThai == 1 ? 'Mở' : 'Đóng'}"></td>
                 <td>
-                    <a th:href="@{|/admin/detailmausac/${ms.id}|}" class="btn btn-sm btn-info me-1" data-ajax="true">Chi tiết</a>
-                    <a th:href="@{|/admin/deletemausac?id=${ms.id}|}" class="btn btn-sm btn-danger" data-ajax="true">Xoá</a>
+                    <a th:href="@{|/admin/detailmausac/${ms.id}|}" class="btn btn-sm btn-outline-dark me-1" data-ajax="true">Chi tiết</a>
+                    <a th:href="@{|/admin/deletemausac?id=${ms.id}|}" class="btn btn-sm btn-outline-dark" data-ajax="true">Xoá</a>
                 </td>
             </tr>
         </th:block>
         </tbody>
     </table>
 
-    <a href="/admin" class="btn btn-secondary mt-4" data-ajax="true">← Quay Lại Trang Admin</a>
+    <a href="/admin" class="btn btn-outline-dark mt-4" data-ajax="true">← Quay Lại Trang Admin</a>
 </div>
 
-<!-- Bootstrap JS Bundle -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
-<!-- AJAX logic -->
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const mainContent = document.getElementById("mainContent");
@@ -95,12 +136,3 @@
                     .then(response => response.text())
                     .then(html => {
                         mainContent.innerHTML = html;
-                    })
-                    .catch(error => console.error("Lỗi khi gửi form:", error));
-            }
-        });
-    });
-</script>
-
-</body>
-</html>
