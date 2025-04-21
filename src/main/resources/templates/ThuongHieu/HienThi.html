@@ -4,23 +4,66 @@
     <meta charset="UTF-8">
     <title>Thương Hiệu</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #fff;
+            color: #000;
+        }
+
+        .card {
+            background-color: #fff;
+            border: 1px solid #000;
+        }
+
+        .form-control, .form-check-input {
+            border: 1px solid #000;
+        }
+
+        .form-control:focus, .form-check-input:focus {
+            box-shadow: none;
+            border-color: #000;
+        }
+
+        .btn-outline-dark {
+            color: #000;
+            border-color: #000;
+        }
+
+        .btn-outline-dark:hover {
+            background-color: #000;
+            color: #fff;
+        }
+
+        .table {
+            border: 1px solid #000;
+        }
+
+        .table th, .table td {
+            border: 1px solid #000;
+        }
+
+        .table-dark {
+            background-color: #000;
+            color: #fff;
+        }
+    </style>
 </head>
-<body class="bg-light">
+<body>
 
 <div class="container py-5" id="mainContent" th:fragment="content">
 
     <h2 class="mb-4">Thêm Thương Hiệu</h2>
-    <form action="/admin/addthuonghieu" method="post" class="card p-4 shadow-sm mb-5 bg-white rounded" data-ajax="true">
+    <form action="/admin/addthuonghieu" method="post" class="card p-4 mb-5" data-ajax="true">
         <div class="mb-3">
-            <label class="form-label">Mã Thương Hiệu</label>
+            <label class="form-label fw-semibold">Mã Thương Hiệu</label>
             <input type="text" name="maThuongHieu" class="form-control" required>
         </div>
         <div class="mb-3">
-            <label class="form-label">Tên Thương Hiệu</label>
+            <label class="form-label fw-semibold">Tên Thương Hiệu</label>
             <input type="text" name="tenThuongHieu" class="form-control" required>
         </div>
         <div class="mb-3">
-            <label class="form-label d-block">Trạng Thái</label>
+            <label class="form-label fw-semibold d-block">Trạng Thái</label>
             <div class="form-check form-check-inline">
                 <input class="form-check-input" type="radio" name="trangThai" value="1" id="trangThaiMo">
                 <label class="form-check-label" for="trangThaiMo">Mở</label>
@@ -30,11 +73,11 @@
                 <label class="form-check-label" for="trangThaiDong">Đóng</label>
             </div>
         </div>
-        <button type="submit" class="btn btn-primary">Thêm</button>
+        <button type="submit" class="btn btn-outline-dark">Thêm</button>
     </form>
 
     <h2 class="mb-4">Danh Sách Thương Hiệu</h2>
-    <table class="table table-bordered table-striped shadow-sm bg-white">
+    <table class="table table-bordered">
         <thead class="table-dark">
         <tr>
             <th>ID</th>
@@ -52,20 +95,19 @@
                 <td th:text="${th.tenThuongHieu}"></td>
                 <td th:text="${th.trangThai == 1 ? 'Mở' : 'Đóng'}"></td>
                 <td>
-                    <a th:href="@{|/admin/detailthuonghieu/${th.id}|}" class="btn btn-sm btn-info me-1" data-ajax="true">Chi tiết</a>
-                    <a th:href="@{|/admin/deletethuonghieu?id=${th.id}|}" class="btn btn-sm btn-danger" data-ajax="true">Xóa</a>
+                    <a th:href="@{|/admin/detailthuonghieu/${th.id}|}" class="btn btn-sm btn-outline-dark me-1" data-ajax="true">Chi tiết</a>
+                    <a th:href="@{|/admin/deletethuonghieu?id=${th.id}|}" class="btn btn-sm btn-outline-dark" data-ajax="true">Xóa</a>
                 </td>
             </tr>
         </th:block>
         </tbody>
     </table>
 
-    <a href="/admin" class="btn btn-secondary mt-3" data-ajax="true">Quay Lại Trang Admin</a>
+    <a href="/admin" class="btn btn-outline-dark mt-3" data-ajax="true">Quay Lại Trang Admin</a>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-<!-- AJAX Handling Script -->
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const mainContent = document.getElementById("mainContent");

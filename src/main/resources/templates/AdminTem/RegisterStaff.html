@@ -6,7 +6,8 @@
     <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
     <style>
         body {
-            background-color: #f8f9fa;
+            background-color: #fff;
+            color: #000;
         }
 
         .register-form {
@@ -14,13 +15,37 @@
             margin: 60px auto;
             padding: 30px;
             border-radius: 10px;
-            background-color: white;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            border: 1px solid #000;
+        }
+
+        .form-control, .form-select {
+            border: 1px solid #000;
+        }
+
+        .form-control:focus, .form-select:focus {
+            box-shadow: none;
+            border-color: #000;
+        }
+
+        .btn-outline-dark {
+            color: #000;
+            border-color: #000;
+        }
+
+        .btn-outline-dark:hover {
+            background-color: #000;
+            color: #fff;
+        }
+
+        .alert {
+            border: 1px solid #000;
         }
 
         h1 {
             text-align: center;
             margin-bottom: 30px;
+            font-weight: bold;
         }
     </style>
 </head>
@@ -36,39 +61,39 @@
         </div>
 
         <!-- Form đăng ký nhân viên -->
-        <form th:action="@{/registerStaff}" th:object="${userForm}" method="post"  data-ajax="true">
+        <form th:action="@{/registerStaff}" th:object="${userForm}" method="post" data-ajax="true">
             <div class="mb-3">
-                <label class="form-label">Email:</label>
+                <label class="form-label fw-semibold">Email:</label>
                 <input type="email" th:field="*{email}" class="form-control" required>
             </div>
 
             <div class="mb-3">
-                <label class="form-label">Mật khẩu:</label>
+                <label class="form-label fw-semibold">Mật khẩu:</label>
                 <input type="password" th:field="*{password}" class="form-control" required>
             </div>
 
             <div class="mb-3">
-                <label class="form-label">Họ:</label>
+                <label class="form-label fw-semibold">Họ:</label>
                 <input type="text" th:field="*{firstName}" class="form-control" required>
             </div>
 
             <div class="mb-3">
-                <label class="form-label">Tên:</label>
+                <label class="form-label fw-semibold">Tên:</label>
                 <input type="text" th:field="*{lastName}" class="form-control" required>
             </div>
 
             <div class="mb-3">
-                <label class="form-label">Số điện thoại:</label>
+                <label class="form-label fw-semibold">Số điện thoại:</label>
                 <input type="text" th:field="*{phone}" class="form-control">
             </div>
 
             <div class="mb-3">
-                <label class="form-label">Địa chỉ:</label>
+                <label class="form-label fw-semibold">Địa chỉ:</label>
                 <input type="text" th:field="*{address}" class="form-control">
             </div>
 
             <div class="d-grid">
-                <button type="submit" class="btn btn-primary">Đăng ký</button>
+                <button type="submit" class="btn btn-outline-dark">Đăng ký</button>
             </div>
         </form>
     </div>
@@ -88,7 +113,7 @@
                     .then(res => res.text())
                     .then(html => {
                         mainContent.innerHTML = html;
-                        initAjaxHandlers(); // Gắn lại sự kiện sau khi thay đổi nội dung
+                        initAjaxHandlers();
                     })
                     .catch(err => console.error("Lỗi AJAX:", err));
             });
@@ -106,7 +131,7 @@
                     .then(res => res.text())
                     .then(html => {
                         mainContent.innerHTML = html;
-                        initAjaxHandlers(); // Gắn lại sự kiện sau khi nội dung mới load
+                        initAjaxHandlers();
                     })
                     .catch(err => console.error("Lỗi gửi form:", err));
             });

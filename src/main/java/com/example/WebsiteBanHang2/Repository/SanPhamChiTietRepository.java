@@ -35,6 +35,4 @@ public interface SanPhamChiTietRepository extends JpaRepository<SanPhamChiTiet, 
 
     @Query("SELECT s.soLuong FROM SanPhamChiTiet s WHERE s.id = :id")
     Integer findSoLuongIdsBySanPhamId(@Param("id") Integer id);
-
-
 }

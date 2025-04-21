@@ -1,41 +1,97 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Cập Nhật Kiểu Dáng</title>
     <!-- Bootstrap 5 CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #fff;
+            color: #000;
+        }
+        .card {
+            background-color: #fff;
+            border: 1px solid #000;
+        }
+        .form-control, .form-check-input {
+            background-color: #fff;
+            border: 1px solid #000;
+            color: #000;
+        }
+        .form-control:focus, .form-check-input:focus {
+            box-shadow: none;
+            border-color: #000;
+        }
+        .btn-outline-dark {
+            color: #000;
+            border-color: #000;
+        }
+        .btn-outline-dark:hover {
+            background-color: #000;
+            color: #fff;
+        }
+        .form-label {
+            color: #000;
+        }
+    </style>
 </head>
 <body class="container mt-5">
-
-<h3 class="mb-4">Cập Nhật Kiểu Dáng</h3>
-<form action="/admin/updatekieudang" method="post" class="border rounded p-4 shadow-sm">
-    <div class="mb-3">
-        <label for="id" class="form-label">ID:</label>
-        <input type="text" id="id" name="id" class="form-control" th:value="${kd.id}" readonly>
-    </div>
-    <div class="mb-3">
-        <label for="maKieuDang" class="form-label">Mã kiểu dáng:</label>
-        <input type="text" id="maKieuDang" name="maKieuDang" class="form-control" th:value="${kd.maKieuDang}">
-    </div>
-    <div class="mb-3">
-        <label for="tenKieuDang" class="form-label">Tên kiểu dáng:</label>
-        <input type="text" id="tenKieuDang" name="tenKieuDang" class="form-control" th:value="${kd.tenKieuDang}">
-    </div>
-    <div class="mb-3">
-        <label class="form-label">Trạng thái:</label><br>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="trangThai" value="1" id="mo" th:checked="${kd.trangThai == 1}">
-            <label class="form-check-label" for="mo">Mở</label>
+<div th:fragment="content">
+    <h3 class="mb-4">Cập Nhật Kiểu Dáng</h3>
+    <form action="/admin/updatekieudang"
+          method="post"
+          class="card p-4 shadow-sm bg-white rounded"
+          data-ajax="true">
+        <div class="mb-3">
+            <label for="id" class="form-label">ID:</label>
+            <input type="text"
+                   id="id"
+                   name="id"
+                   class="form-control"
+                   th:value="${kd.id}"
+                   readonly>
         </div>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="trangThai" value="0" id="dong" th:checked="${kd.trangThai == 0}">
-            <label class="form-check-label" for="dong">Đóng</label>
+        <div class="mb-3">
+            <label for="maKieuDang" class="form-label">Mã kiểu dáng:</label>
+            <input type="text"
+                   id="maKieuDang"
+                   name="maKieuDang"
+                   class="form-control"
+                   th:value="${kd.maKieuDang}">
         </div>
-    </div>
-    <button type="submit" class="btn btn-warning">Cập nhật</button>
-</form>
-
+        <div class="mb-3">
+            <label for="tenKieuDang" class="form-label">Tên kiểu dáng:</label>
+            <input type="text"
+                   id="tenKieuDang"
+                   name="tenKieuDang"
+                   class="form-control"
+                   th:value="${kd.tenKieuDang}">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Trạng thái:</label><br>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input"
+                       type="radio"
+                       name="trangThai"
+                       value="1"
+                       th:checked="${kd.trangThai == 1}"
+                       id="mo">
+                <label class="form-check-label" for="mo">Mở</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input"
+                       type="radio"
+                       name="trangThai"
+                       value="0"
+                       th:checked="${kd.trangThai == 0}"
+                       id="dong">
+                <label class="form-check-label" for="dong">Đóng</label>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-outline-dark">Cập Nhật</button>
+    </form>
+</div>
 <!-- Bootstrap JS Bundle -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>

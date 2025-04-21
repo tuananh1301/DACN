@@ -24,5 +24,6 @@ public class AdminController {
         UserAccount user = (UserAccount) authentication.getPrincipal();
         model.addAttribute("user", user);
         return "AdminTem/Admin";
+
     }
 }

@@ -1,118 +1,161 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sản Phẩm Chi Tiết</title>
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #fff;
+            color: #000;
+        }
+
+        .card, .form-control, .form-check-input {
+            background-color: #fff;
+            border: 1px solid #000;
+        }
+
+        .form-control:focus, .form-check-input:focus {
+            box-shadow: none;
+            border-color: #000;
+        }
+
+        .btn-primary {
+            color: #fff;
+            background-color: #000;
+            border-color: #000;
+        }
+
+        .btn-primary:hover {
+            background-color: #fff;
+            color: #000;
+            border-color: #000;
+        }
+
+        .form-label {
+            color: #000;
+        }
+    </style>
 </head>
 <body>
-<div class="container mt-5">
-    <h2>Cập Nhật Sản Phẩm Chi Tiết</h2>
-    <form action="/admin/updateSPCT" method="post">
-        <div class="mb-3">
-            <label for="id" class="form-label">ID</label>
-            <input type="text" class="form-control" id="id" name="id" th:value="${spct.id}" readonly>
-        </div>
-        <div class="mb-3">
-            <label class="form-label">Sản Phẩm</label>
-            <select class="form-select" name="sanPhamId">
-                <option value="">Chọn sản phẩm</option>
-                <th:block th:each="sp : ${listSP}">
-                    <option th:value="${sp.id}" th:text="${sp.tenSanPham}" th:selected="${sp.id == spct.sanPhamId.id}"></option>
-                </th:block>
-            </select>
-        </div>
-        <div class="mb-3">
-            <label class="form-label">Kích Thước</label>
-            <select class="form-select" name="kichThuocId">
-                <option value="">Chọn kích thước</option>
-                <th:block th:each="kt : ${listKT}">
-                    <option th:value="${kt.id}" th:text="${kt.tenKichThuoc}" th:selected="${kt.id == spct.kichThuocId.id}"></option>
-                </th:block>
-            </select>
-        </div>
-        <div class="mb-3">
-            <label class="form-label">Màu Sắc</label>
-            <select class="form-select" name="mauSacId">
-                <option value="">Chọn màu sắc</option>
-                <th:block th:each="ms : ${listMS}">
-                    <option th:value="${ms.id}" th:text="${ms.tenMauSac}" th:selected="${ms.id == spct.mauSacId.id}"></option>
-                </th:block>
-            </select>
-        </div>
-        <div class="mb-3">
-            <label class="form-label">Chất Liệu</label>
-            <select class="form-select" name="chatLieuId">
-                <option value="">Chọn chất liệu</option>
-                <th:block th:each="cl : ${listCL}">
-                    <option th:value="${cl.id}" th:text="${cl.tenChatLieu}" th:selected="${cl.id == spct.chatLieuId.id}"></option>
-                </th:block>
-            </select>
-        </div>
-        <div class="mb-3">
-            <label class="form-label">Kiểu Dáng</label>
-            <select class="form-select" name="kieuDangId">
-                <option value="">Chọn kiểu dáng</option>
-                <th:block th:each="kd : ${listKD}">
-                    <option th:value="${kd.id}" th:text="${kd.tenKieuDang}" th:selected="${kd.id == spct.kieuDangId.id}"></option>
-                </th:block>
-            </select>
-        </div>
-        <div class="mb-3">
-            <label class="form-label">Cổ Áo</label>
-            <select class="form-select" name="coAoId">
-                <option value="">Chọn cổ áo</option>
-                <th:block th:each="ca : ${listCA}">
-                    <option th:value="${ca.id}" th:text="${ca.tenCoAo}" th:selected="${ca.id == spct.coAoId.id}"></option>
-                </th:block>
-            </select>
-        </div>
-        <div class="mb-3">
-            <label class="form-label">Thiết Kế</label>
-            <select class="form-select" name="thietKeId">
-                <option value="">Chọn thiết kế</option>
-                <th:block th:each="tk : ${listTK}">
-                    <option th:value="${tk.id}" th:text="${tk.tenThietKe}" th:selected="${tk.id == spct.thietKeId.id}"></option>
-                </th:block>
-            </select>
-        </div>
-        <div class="mb-3">
-            <label class="form-label">Thương Hiệu</label>
-            <select class="form-select" name="thuongHieuId">
-                <option value="">Chọn thương hiệu</option>
-                <th:block th:each="th : ${listTH}">
-                    <option th:value="${th.id}" th:text="${th.tenThuongHieu}" th:selected="${th.id == spct.thuongHieuId.id}"></option>
-                </th:block>
-            </select>
-        </div>
-        <div class="mb-3">
-            <label class="form-label">Số Lượng</label>
-            <input type="number" class="form-control" name="soLuong" th:value="${spct.soLuong}">
-        </div>
-        <div class="mb-3">
-            <label class="form-label">Đơn Giá</label>
-            <input type="number" class="form-control" name="donGia" step="0.01" th:value="${spct.donGia}">
-        </div>
-        <div class="mb-3">
-            <label class="form-label">Ngày Tạo</label>
-            <input type="date" class="form-control" name="ngayTao" th:value="${spct.ngayTao}" readonly>
-        </div>
-        <div class="mb-3">
-            <label class="form-label">Ngày Cập Nhật</label>
-            <input type="date" class="form-control" name="ngayCapNhat" th:value="${spct.ngayCapNhat}" readonly>
-        </div>
-        <div class="mb-3">
-            <label class="form-label">Người Cập Nhật</label>
-            <input type="text" class="form-control" name="nguoiCapNhat" th:value="${spct.nguoiCapNhat}">
-        </div>
-        <div class="mb-3">
-            <label class="form-label">Trạng Thái</label><br>
-            <input type="radio" name="trangThai" value="1" th:checked="${spct.trangThai == 1}"> Mở
-            <input type="radio" name="trangThai" value="0" th:checked="${spct.trangThai == 0}"> Đóng
-        </div>
-        <button type="submit" class="btn btn-primary">Cập Nhật</button>
-    </form>
+<div th:fragment="content">
+    <div class="container mt-5">
+        <h2 class="mb-4">Cập Nhật Sản Phẩm Chi Tiết</h2>
+        <form action="/admin/updateSPCT" method="post" class="card p-4 shadow-sm bg-white rounded">
+            <div class="mb-3">
+                <label for="id" class="form-label">ID</label>
+                <input type="text" class="form-control" id="id" name="id" th:value="${spct.id}" readonly>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Sản Phẩm</label>
+                <select class="form-select" name="sanPhamId">
+                    <option value="">Chọn sản phẩm</option>
+                    <th:block th:each="sp : ${listSP}">
+                        <option th:value="${sp.id}" th:text="${sp.tenSanPham}"
+                                th:selected="${sp.id == spct.sanPhamId.id}"></option>
+                    </th:block>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Kích Thước</label>
+                <select class="form-select" name="kichThuocId">
+                    <option value="">Chọn kích thước</option>
+                    <th:block th:each="kt : ${listKT}">
+                        <option th:value="${kt.id}" th:text="${kt.tenKichThuoc}"
+                                th:selected="${kt.id == spct.kichThuocId.id}"></option>
+                    </th:block>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Màu Sắc</label>
+                <select class="form-select" name="mauSacId">
+                    <option value="">Chọn màu sắc</option>
+                    <th:block th:each="ms : ${listMS}">
+                        <option th:value="${ms.id}" th:text="${ms.tenMauSac}"
+                                th:selected="${ms.id == spct.mauSacId.id}"></option>
+                    </th:block>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Chất Liệu</label>
+                <select class="form-select" name="chatLieuId">
+                    <option value="">Chọn chất liệu</option>
+                    <th:block th:each="cl : ${listCL}">
+                        <option th:value="${cl.id}" th:text="${cl.tenChatLieu}"
+                                th:selected="${cl.id == spct.chatLieuId.id}"></option>
+                    </th:block>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Kiểu Dáng</label>
+                <select class="form-select" name="kieuDangId">
+                    <option value="">Chọn kiểu dáng</option>
+                    <th:block th:each="kd : ${listKD}">
+                        <option th:value="${kd.id}" th:text="${kd.tenKieuDang}"
+                                th:selected="${kd.id == spct.kieuDangId.id}"></option>
+                    </th:block>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Cổ Áo</label>
+                <select class="form-select" name="coAoId">
+                    <option value="">Chọn cổ áo</option>
+                    <th:block th:each="ca : ${listCA}">
+                        <option th:value="${ca.id}" th:text="${ca.tenCoAo}"
+                                th:selected="${ca.id == spct.coAoId.id}"></option>
+                    </th:block>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Thiết Kế</label>
+                <select class="form-select" name="thietKeId">
+                    <option value="">Chọn thiết kế</option>
+                    <th:block th:each="tk : ${listTK}">
+                        <option th:value="${tk.id}" th:text="${tk.tenThietKe}"
+                                th:selected="${tk.id == spct.thietKeId.id}"></option>
+                    </th:block>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Thương Hiệu</label>
+                <select class="form-select" name="thuongHieuId">
+                    <option value="">Chọn thương hiệu</option>
+                    <th:block th:each="th : ${listTH}">
+                        <option th:value="${th.id}" th:text="${th.tenThuongHieu}"
+                                th:selected="${th.id == spct.thuongHieuId.id}"></option>
+                    </th:block>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Số Lượng</label>
+                <input type="number" class="form-control" name="soLuong" th:value="${spct.soLuong}">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Đơn Giá</label>
+                <input type="number" class="form-control" name="donGia" step="0.01" th:value="${spct.donGia}">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Ngày Tạo</label>
+                <input type="date" class="form-control" name="ngayTao" th:value="${spct.ngayTao}" readonly>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Ngày Cập Nhật</label>
+                <input type="date" class="form-control" name="ngayCapNhat" th:value="${spct.ngayCapNhat}" readonly>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Người Cập Nhật</label>
+                <input type="text" class="form-control" name="nguoiCapNhat" th:value="${spct.nguoiCapNhat}">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Trạng Thái</label><br>
+                <input type="radio" name="trangThai" value="1" th:checked="${spct.trangThai == 1}"> Mở
+                <input type="radio" name="trangThai" value="0" th:checked="${spct.trangThai == 0}"> Đóng
+            </div>
+            <button type="submit" class="btn btn-outline-dark">Cập Nhật</button>
+        </form>
+    </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
