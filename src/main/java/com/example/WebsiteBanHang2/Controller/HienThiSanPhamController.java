@@ -4,6 +4,7 @@ import com.example.WebsiteBanHang2.Dto.SanPhamChiTietDTO;
 import com.example.WebsiteBanHang2.Model.GioHang.CartItem;
 import com.example.WebsiteBanHang2.Model.GioHang.ShoppingCart;
 import com.example.WebsiteBanHang2.Model.SanPhamChiTiet;
+import com.example.WebsiteBanHang2.Repository.DonViVanChuyenRepository;
 import com.example.WebsiteBanHang2.Repository.SanPhamChiTietRepository;
 import com.example.WebsiteBanHang2.Service.SanPhamChiTietService;
 import jakarta.servlet.http.HttpSession;
@@ -25,6 +26,8 @@ import java.util.stream.Collectors;
 public class HienThiSanPhamController {
     @Autowired
     SanPhamChiTietService sanPhamChiTietService;
+    @Autowired
+    DonViVanChuyenRepository donViVanChuyenRepository;
 
     @GetMapping("/trangchu")
     public String hienThiSanPham(Model model) {
@@ -106,6 +109,68 @@ public class HienThiSanPhamController {
             return "redirect:/customer/san-pham/" + sanPhamChiTietId;
         }
     }
+    @PostMapping("/buy-now")
+    public String buyNow(
+            @RequestParam("id") Integer sanPhamChiTietId,
+            @RequestParam("soLuong") Integer soLuongMua,
+            @RequestParam("mauSac") String mauSac,
+            @RequestParam("kichThuoc") String kichThuoc,
+            HttpSession session,
+            RedirectAttributes redirectAttributes
+    ) {
+        try {
+            SanPhamChiTietDTO product = sanPhamChiTietService.getSanPhamChiTietById(sanPhamChiTietId);
+            if (product == null) {
+                redirectAttributes.addFlashAttribute("error", "Sản phẩm không tồn tại");
+                return "redirect:/customer/san-pham/" + sanPhamChiTietId;
+            }
+
+            if (soLuongMua < 1 || soLuongMua > product.getSoLuong()) {
+                redirectAttributes.addFlashAttribute("error", "Số lượng không hợp lệ, chỉ còn " + product.getSoLuong() + " sản phẩm");
+                return "redirect:/customer/san-pham/" + sanPhamChiTietId;
+            }
+
+            CartItem buyNowItem = new CartItem(
+                    product.getId(),
+                    product.getSanPhamId().getTenSanPham(),
+                    soLuongMua,
+                    product.getDonGia(),
+                    mauSac,
+                    kichThuoc,
+                    product.getPhoto()
+            );
+
+            // Lưu riêng vào session (KHÔNG thêm vào giỏ hàng chính)
+            session.setAttribute("buyNowItem", buyNowItem);
+
+            return "redirect:/customer/buy-now/checkout";
+
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Lỗi khi mua ngay: " + e.getMessage());
+            return "redirect:/customer/buy-now/checkout";
+        }
+    }
+
+    @GetMapping("/buy-now/checkout")
+    public String showBuyNowCheckout(HttpSession session, Model model) {
+        CartItem buyNowItem = (CartItem) session.getAttribute("buyNowItem");
+
+        if (buyNowItem == null) {
+            return "redirect:/customer/trangchu";
+        }
+
+        // Tạo giỏ tạm thời để hiển thị
+        ShoppingCart cart = new ShoppingCart();
+        cart.addItem(buyNowItem);
+
+        model.addAttribute("cart", cart);
+        model.addAttribute("donViVanChuyens", donViVanChuyenRepository.findAll());
+        model.addAttribute("orderForm", new OrderForm());
+
+        return "DatHang/CheckOutMuaNgay";  // Trang riêng biệt (có thể dùng lại CheckOut.html nếu bạn không cần tùy biến)
+    }
+
+
 
     @GetMapping("/cart")
     public String viewCart(HttpSession session, Model model) {

@@ -428,18 +428,14 @@
     }
 
     function buyNow() {
-        console.log('Buy now clicked');
         if (validateForm()) {
             const form = document.getElementById('cartForm');
-            form.addEventListener('submit', () => {
-                setTimeout(() => {
-                    console.log('Redirecting to checkout');
-                    window.location.href = '/customer/checkout';
-                }, 500);
-            }, { once: true });
+            form.action = '/customer/buy-now';  // Gửi đến controller mới
             form.submit();
         }
     }
+
+
 </script>
 </body>
 </html>
